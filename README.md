@@ -1,6 +1,6 @@
 # Kalculator
 
-Used to safely evaluate mathematical and logical expressions entered by a user.
+A rubygem to safely and quickly evaluate mathematical and logical expressions entered by a user.
 This library is very similar to [dentaku](https://github.com/rubysolo/dentaku) in purpose, but it emphasizes simplicity and performance.
 
 ## Basic Usage
