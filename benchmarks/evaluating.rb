@@ -1,10 +1,10 @@
 require "benchmark/ips"
-require "calc"
+require "kalculator"
 
-numbers = Calc.new("5 + 8 / 3 - 1 * 4")
-variables = Calc.new("a + b / c - d * e")
+numbers = Kalculator.new("5 + 8 / 3 - 1 * 4")
+variables = Kalculator.new("a + b / c - d * e")
 variables_data = {"a" => 1, "b" => 2, "c" => 3, "d" => 4, "e" => 5}
-multi_parts = Calc.new("a.a.a + a.a.b / a.b.a - a.b.b * b.a.a")
+multi_parts = Kalculator.new("a.a.a + a.a.b / a.b.a - a.b.b * b.a.a")
 multi_parts_data = {"a" => {"a" => {"a" => 1, "b" => 2}, "b" => {"a" => 3, "b" => 4}}, "b" => {"a" => {"a" => 5}}}
 
 Benchmark.ips do |x|

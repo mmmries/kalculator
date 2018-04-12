@@ -1,38 +1,38 @@
-# Calc
+# Kalculator
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/calc`. To experiment with that code, run `bin/console` for an interactive prompt.
+Used to safely evaluate mathematical and logical expressions entered by a user.
+This library is very similar to [dentaku](https://github.com/rubysolo/dentaku) in purpose, but it emphasizes simplicity and performance.
 
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
+## Basic Usage
 
 ```ruby
-gem 'calc'
+Kalculator.evaluate("5 + 8 - 3") # => 10
+Kalculator.evaluate("A * C", {"A" => 1, "C" => 8}) # => 8
 ```
 
-And then execute:
+If you have an expression that you want to execute multiple times (ie run the same calculation on a bunch of different datasets), you can create a `Kalculator` instance which will memoize the parsed AST.
 
-    $ bundle
+```ruby
+kalculator = Kalculator.new("13 * Price - Taxes")
+kalculator.evaluate({"Price" => 8.5, "Taxes" => 1.35}) # => 109.15
+```
 
-Or install it yourself as:
+## Performance
 
-    $ gem install calc
+This project emphasizes performance and includes a few benchmarks.
+You can run these like this:
 
-## Usage
+```
+bundle exec ruby benchmarks/parsing.rb
+```
 
-TODO: Write usage instructions here
+The last time I compared these benchmarks against the performance of `dentaku` I found that the performance was ~17.5x faster when evaluating expressions and about the same when parsing them.
 
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+![iterations per second](performance_vs_dentaku.png)
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/calc. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/mmmries/kalculator. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -40,4 +40,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Calc project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/calc/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Kalculator project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/mmmries/kalculator/blob/master/CODE_OF_CONDUCT.md).

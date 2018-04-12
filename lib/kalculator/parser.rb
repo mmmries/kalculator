@@ -1,4 +1,4 @@
-class Calc
+class Kalculator
   class Parser < RLTK::Parser
     #Left     200 '&&' '||'.
     left :GT, :GTE, :LT, :LTE, :EQ

@@ -1,4 +1,4 @@
-class Calc
+class Kalculator
   class Lexer < RLTK::Lexer
     rule(/\s/)
     rule(/\(/)       { :LPAREN }

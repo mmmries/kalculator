@@ -1,4 +1,4 @@
-class Calc
+class Kalculator
   class DataSources
     def initialize(*sources)
       @sources = sources

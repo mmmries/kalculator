@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "calc"
+require "kalculator"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

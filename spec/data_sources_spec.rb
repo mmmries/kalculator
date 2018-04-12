@@ -1,6 +1,6 @@
-RSpec.describe Calc::DataSources do
+RSpec.describe Kalculator::DataSources do
   it "combines multiple data sources" do
-    source = Calc::DataSources.new({"a" => 5}, {"c" => 7})
+    source = Kalculator::DataSources.new({"a" => 5}, {"c" => 7})
     expect(source.key?("a")).to be true
     expect(source.key?("b")).to be false
     expect(source.key?("c")).to be true

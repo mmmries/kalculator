@@ -1,19 +1,19 @@
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "calc/version"
+require "kalculator/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "calc"
-  spec.version       = Calc::VERSION
+  spec.name          = "kalculator"
+  spec.version       = Kalculator::VERSION
   spec.authors       = ["Michael Ries"]
   spec.email         = ["michael@riesd.com"]
 
-  spec.summary       = "A calculator that can safely interpret user-input"
+  spec.summary       = "A calculator that can safely and quickly interpret user-input"
   spec.description   = spec.summary
-  spec.homepage      = "https://github.com/mmmries/calc"
+  spec.homepage      = "https://github.com/mmmries/kalculator"
   spec.license       = "MIT"
 
-  spec.files         = ["calc.gemspec"] + Dir["lib/**/*"]
+  spec.files         = ["kalculator.gemspec"] + Dir["lib/**/*"]
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
