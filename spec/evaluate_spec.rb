@@ -75,6 +75,12 @@ RSpec.describe Kalculator do
       expect(Kalculator.evaluate("\"ohai\"")).to eq("ohai")
     end
 
+    it "raises a specific error if a variable cannot be found" do
+      expect {
+        Kalculator.evaluate("wat")
+      }.to raise_error(Kalculator::UndefinedVariableError)
+    end
+
     it "can compare strings" do
       expect(Kalculator.evaluate("\"ohai\" == Name", {"Name" => "ohai"})).to eq(true)
       expect(Kalculator.evaluate("\"ohai\" == Name", {"Name" => "kThxBye"})).to eq(false)
