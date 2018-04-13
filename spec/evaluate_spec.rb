@@ -70,5 +70,14 @@ RSpec.describe Kalculator do
     it "evaluates sum" do
       expect(Kalculator.new("sum(a)").evaluate({"a" => [1,2,3,4]})).to eq(10)
     end
+
+    it "can evaluate a string" do
+      expect(Kalculator.evaluate("\"ohai\"")).to eq("ohai")
+    end
+
+    it "can compare strings" do
+      expect(Kalculator.evaluate("\"ohai\" == Name", {"Name" => "ohai"})).to eq(true)
+      expect(Kalculator.evaluate("\"ohai\" == Name", {"Name" => "kThxBye"})).to eq(false)
+    end
   end
 end

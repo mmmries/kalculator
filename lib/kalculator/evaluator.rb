@@ -60,6 +60,10 @@ class Kalculator
       number
     end
 
+    def string(_, string)
+      string
+    end
+
     def sum(_, array)
       evaluate(array).inject(0){|sum, num| sum + num}
     end

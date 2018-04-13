@@ -20,6 +20,7 @@ class Kalculator
     rule(/sum/)      { |t| :SUM }
     rule(/true/)     { |t| :TRUE }
     rule(/false/)    { |t| :FALSE }
+    rule(/"[^"]*"/)  { |t| [:STRING, t[1..-2]] }
     rule(/[A-Za-z][A-Za-z0-9\._]*/) { |t| [:IDENT, t] }
   end
 end
