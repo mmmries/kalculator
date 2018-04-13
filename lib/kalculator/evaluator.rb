@@ -48,6 +48,15 @@ class Kalculator
       boolean
     end
 
+    def contains(_, string, substring)
+      string = evaluate(string)
+      substring = evaluate(substring)
+      unless string.is_a?(String) && substring.is_a?(String)
+        raise TypeError, "contains only works with strings, got #{string.inspect} and #{substring.inspect}"
+      end
+      string.include?(substring)
+    end
+
     def if(_, condition, true_clause, false_clause)
       if evaluate(condition)
         evaluate(true_clause)
@@ -70,7 +79,7 @@ class Kalculator
 
     def variable(_, names)
       names.inject(@data_source) do |source, name|
-        raise "undefined variable #{names.join(".")} (could not find #{name} in #{source}" unless source.key?(name)
+        raise UndefinedVariableError, "undefined variable #{names.join(".")} (could not find #{name} in #{source}" unless source.key?(name)
         source[name]
       end
     end
