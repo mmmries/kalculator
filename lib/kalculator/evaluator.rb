@@ -74,7 +74,11 @@ class Kalculator
     end
 
     def sum(_, array)
-      evaluate(array).inject(0){|sum, num| sum + num}
+      array = evaluate(array)
+      unless array.is_a?(Array) && array.all?{|n| n.is_a?(Numeric)}
+        raise TypeError, "sum only works with lists of numbers, got #{array.inspect}"
+      end
+      array.inject(0){|sum, num| sum + num}
     end
 
     def variable(_, names)

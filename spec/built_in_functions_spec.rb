@@ -23,5 +23,22 @@ RSpec.describe Kalculator do
     it "can sum a list of numbers" do
       expect(Kalculator.evaluate("sum(numbers)", {"numbers" => [1,2,3,4]})).to eq(10)
     end
+
+    it "can sum floating point numbers" do
+      sum = Kalculator.evaluate("sum(numbers)", {"numbers" => [2,3.5]})
+      expect(sum).to be_within(0.01).of(5.5)
+    end
+
+    it "handles incorrect container type" do
+      expect {
+        Kalculator.evaluate("sum(\"wat\")")
+      }.to raise_error(Kalculator::TypeError, "sum only works with lists of numbers, got \"wat\"")
+    end
+
+    it "handles incorrect array contents" do
+      expect {
+        Kalculator.evaluate("sum(numbers)", {"numbers" => [1,2,"wat"]})
+      }.to raise_error(Kalculator::TypeError, "sum only works with lists of numbers, got [1, 2, \"wat\"]")
+    end
   end
 end
