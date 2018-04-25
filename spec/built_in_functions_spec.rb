@@ -1,4 +1,4 @@
-RSpec.describe Kalculator do
+RSpec.describe Kalculator::Formula do
   describe "contains" do
     it "returns true when there is a match" do
       expect(Kalculator.evaluate("contains(\"ohai\", \"oh\")")).to eq(true)
