@@ -33,7 +33,7 @@ RSpec.describe Kalculator do
     end
 
     it "evaluates multi-part variable names" do
-      data = {"A" => {"foo" => {"bar" => 14}}}
+      data = {"A.foo.bar" => 14}
       expect(Kalculator.evaluate("A.foo.bar + 6", data)).to eq(20)
     end
 

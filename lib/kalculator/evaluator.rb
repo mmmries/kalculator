@@ -81,11 +81,9 @@ class Kalculator
       array.inject(0){|sum, num| sum + num}
     end
 
-    def variable(_, names)
-      names.inject(@data_source) do |source, name|
-        raise UndefinedVariableError, "undefined variable #{names.join(".")} (could not find #{name} in #{source}" unless source.key?(name)
-        source[name]
-      end
+    def variable(_, name)
+      raise UndefinedVariableError, "undefined variable #{name} (could not find #{name})" unless @data_source.key?(name)
+      @data_source[name]
     end
   end
 end

@@ -20,7 +20,7 @@ class Kalculator
 
       clause('NUMBER') { |n| [:number, n] }
       clause('STRING') { |s| [:string, s] }
-      clause('IDENT') { |n| [:variable, n.split(".")] }
+      clause('IDENT') { |n| [:variable, n] }
       clause('TRUE') { |n| [:boolean, true] }
       clause('FALSE') { |n| [:boolean, false] }
 
