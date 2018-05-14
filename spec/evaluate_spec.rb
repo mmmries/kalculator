@@ -43,6 +43,12 @@ RSpec.describe Kalculator do
       expect(Kalculator.evaluate("A.foo.bar + 6", nested)).to eq(20)
     end
 
+    it "missing names in a nested structure raise UndefinedVariableErrors" do
+      data = {"A" => {"foo" => {"bar" => 14}}}
+      nested = Kalculator::NestedLookup.new(data)
+      expect{ Kalculator.evaluate("A.foo.baz + 6", nested) }.to raise_error(Kalculator::UndefinedVariableError, "undefined variable A.foo.baz")
+    end
+
     it "evaluates >" do
       expect(Kalculator.evaluate("4 > 4")).to eq(false)
       expect(Kalculator.evaluate("5 > 4")).to eq(true)

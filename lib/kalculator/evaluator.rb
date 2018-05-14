@@ -82,7 +82,7 @@ class Kalculator
     end
 
     def variable(_, name)
-      raise UndefinedVariableError, "undefined variable #{name} (could not find #{name})" unless @data_source.key?(name)
+      raise UndefinedVariableError, "undefined variable #{name}" unless @data_source.key?(name)
       @data_source[name]
     end
   end
