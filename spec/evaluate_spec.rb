@@ -37,6 +37,12 @@ RSpec.describe Kalculator do
       expect(Kalculator.evaluate("A.foo.bar + 6", data)).to eq(20)
     end
 
+    it "evaluates nested multi-part variable names" do
+      data = {"A" => {"foo" => {"bar" => 14}}}
+      nested = Kalculator::NestedLookup.new(data)
+      expect(Kalculator.evaluate("A.foo.bar + 6", nested)).to eq(20)
+    end
+
     it "evaluates >" do
       expect(Kalculator.evaluate("4 > 4")).to eq(false)
       expect(Kalculator.evaluate("5 > 4")).to eq(true)
