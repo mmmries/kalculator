@@ -4,6 +4,7 @@ require "kalculator/errors"
 require "kalculator/evaluator"
 require "kalculator/formula"
 require "kalculator/lexer"
+require "kalculator/nested_lookup"
 require "kalculator/parser"
 require "kalculator/version"
 

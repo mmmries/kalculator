@@ -17,12 +17,12 @@ RSpec.describe Kalculator do
 
     it "parses variable names" do
       calc = Kalculator.new("1 + TotalPrice")
-      expect(calc.ast).to eq([:+, [:number, 1], [:variable, ["TotalPrice"]]])
+      expect(calc.ast).to eq([:+, [:number, 1], [:variable, "TotalPrice"]])
     end
 
     it "parses variable names with dots in them for nested structures" do
       calc = Kalculator.new("a.foo + B.Bar")
-      expect(calc.ast).to eq([:+, [:variable, ["a","foo"]], [:variable, ["B","Bar"]]])
+      expect(calc.ast).to eq([:+, [:variable, "a.foo"], [:variable, "B.Bar"]])
     end
   end
 end

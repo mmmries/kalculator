@@ -3,6 +3,24 @@
 A rubygem to safely and quickly evaluate mathematical and logical expressions entered by a user.
 This library is very similar to [dentaku](https://github.com/rubysolo/dentaku) in purpose, but it emphasizes simplicity and performance.
 
+## Changes in 0.4.0
+
+Before 0.4.0 it was possible to pass in a multi-part name like:
+
+```ruby
+Kalculator.evaluate("a.b" => {"a" => {"b" => 15}}) # => 15
+```
+
+Looking up names this way restricts certain use-cases, so we've moved this functionality out of the way we evaluate and into a helper class.
+Now you can do either of the following:
+
+```
+# names are looked up in their complete form
+Kalculator.evaluate("a.b" => {"a.b" => 15}}) # => 15
+# the NestedLookup class splits names into parts and looks them up in a nested way
+Kalculator.evaluate("a.b" => Kalculator::NestedLookup.new({"a" => {"b" => 15}})) # => 15
+```
+
 ## Basic Usage
 
 ```ruby
