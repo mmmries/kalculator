@@ -74,6 +74,29 @@ RSpec.describe Kalculator do
       expect(Kalculator.evaluate("4 == 4")).to eq(true)
     end
 
+    it "evaluates AND" do
+      expect(Kalculator.evaluate("true AND true")).to eq(true)
+      expect(Kalculator.evaluate("true AND false")).to eq(false)
+      expect(Kalculator.evaluate("false AND false")).to eq(false)
+      expect(Kalculator.evaluate("A < 5 AND contains(B, C)", {"A" => 4, "B" => "abc", "C" => "b"})).to eq(true)
+      expect(Kalculator.evaluate("A < 5 AND contains(B, C)", {"A" => 4, "B" => "abc", "C" => "z"})).to eq(false)
+    end
+
+    it "evaluates OR" do
+      expect(Kalculator.evaluate("true OR true")).to eq(true)
+      expect(Kalculator.evaluate("true OR false")).to eq(true)
+      expect(Kalculator.evaluate("false OR false")).to eq(false)
+      expect(Kalculator.evaluate("A < 5 OR contains(B, C)", {"A" => 6, "B" => "abc", "C" => "b"})).to eq(true)
+      expect(Kalculator.evaluate("A < 5 OR contains(B, C)", {"A" => 6, "B" => "abc", "C" => "z"})).to eq(false)
+    end
+
+    it "evaluates combinations of ANDs and ORs" do
+      expect(Kalculator.evaluate("(true OR false) AND true")).to eq(true)
+      expect(Kalculator.evaluate("(true OR false) AND false")).to eq(false)
+      expect(Kalculator.evaluate("(true AND false) OR false")).to eq(false)
+      expect(Kalculator.evaluate("(true AND false) OR true")).to eq(true)
+    end
+
     it "evaluates if" do
       expect(Kalculator.evaluate("if(2 > 1, 1 + 1, 2 + 2)")).to eq(2)
       expect(Kalculator.evaluate("if(1 > 1, 1 + 1, 2 + 2)")).to eq(4)

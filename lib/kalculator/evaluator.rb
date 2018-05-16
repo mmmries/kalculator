@@ -44,6 +44,14 @@ class Kalculator
       evaluate(left) == evaluate(right)
     end
 
+    def and(_, left, right)
+      evaluate(left) && evaluate(right)
+    end
+
+    def or(_, left, right)
+      evaluate(left) || evaluate(right)
+    end
+
     def boolean(_, boolean)
       boolean
     end

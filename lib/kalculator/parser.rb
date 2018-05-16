@@ -1,6 +1,6 @@
 class Kalculator
   class Parser < RLTK::Parser
-    #Left     200 '&&' '||'.
+    left :AND, :OR
     left :GT, :GTE, :LT, :LTE, :EQ
     left :PLUS, :SUB
     left :MUL, :DIV
@@ -29,6 +29,9 @@ class Kalculator
       clause('expression LT expression') { |e0, _, e1| [:<, e0, e1] }
       clause('expression LTE expression') { |e0, _, e1| [:<=, e0, e1] }
       clause('expression EQ expression') { |e0, _, e1| [:==, e0, e1] }
+
+      clause('expression AND expression') { |e0, _, e1| [:and, e0, e1] }
+      clause('expression OR expression') { |e0, _, e1| [:or, e0, e1] }
 
       clause('expression PLUS expression') { |e0, _, e1| [:+, e0, e1] }
       clause('expression SUB expression')  { |e0, _, e1| [:-, e0, e1] }

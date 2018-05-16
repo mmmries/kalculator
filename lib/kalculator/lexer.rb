@@ -13,6 +13,8 @@ class Kalculator
     rule(/</)        { :LT     }
     rule(/<=/)       { :LTE    }
     rule(/==/)       { :EQ     }
+    rule(/AND/)      { :AND    }
+    rule(/OR/)       { :OR     }
     rule(/\d+/)      { |t| [:NUMBER, t.to_i] }
     rule(/\.\d+/)    { |t| [:NUMBER, t.to_f] }
     rule(/\d+\.\d+/) { |t| [:NUMBER, t.to_f] }
