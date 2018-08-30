@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    kalculator (0.4.1)
+    kalculator (0.5.0)
       rltk (~> 3.0)
 
 GEM
