@@ -1,11 +1,20 @@
 RSpec.describe Kalculator::Formula do
   describe "contains" do
-    it "returns true when there is a match" do
-      expect(Kalculator.evaluate("contains(\"ohai\", \"oh\")")).to eq(true)
+    context "with strings" do
+      it "returns true when there is a match" do
+        expect(Kalculator.evaluate("contains(\"ohai\", \"oh\")")).to eq(true)
+      end
+
+      it "returns false when there is no match" do
+        expect(Kalculator.evaluate("contains(\"ohai\", \"Dwight\")")).to eq(false)
+      end
     end
 
-    it "returns false when there is no match" do
-      expect(Kalculator.evaluate("contains(\"ohai\", \"Dwight\")")).to eq(false)
+    context "with lists" do
+      it "can find an integer in a list of integers" do
+        expect(Kalculator.evaluate("contains([1,2,3], 2)")).to eq(true)
+        expect(Kalculator.evaluate("contains([1,2,3], 4)")).to eq(false)
+      end
     end
 
     it "handles incorrect types on string" do

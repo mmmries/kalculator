@@ -7,8 +7,8 @@ class Kalculator
     #Left     600 '.'.
 
     production(:expression) do
-      clause('CONTAINS LPAREN expression COMMA expression RPAREN') do |_, _, string, _, substring, _|
-        [:contains, string, substring]
+      clause('CONTAINS LPAREN expression COMMA expression RPAREN') do |_, _, collection, _, item, _|
+        [:contains, collection, item]
       end
       clause('IF LPAREN expression COMMA expression COMMA expression RPAREN') do |_, _, condition, _, true_clause, _, false_clause, _|
         [:if, condition, true_clause, false_clause]
@@ -17,6 +17,7 @@ class Kalculator
         [:sum, e0]
       end
       clause('LPAREN expression RPAREN') { |_, expression, _| expression }
+      clause('LBRACKET expressions RBRACKET') { |_, expressions, _| [:list, expressions] }
 
       clause('NUMBER') { |n| [:number, n] }
       clause('STRING') { |s| [:string, s] }
@@ -37,6 +38,11 @@ class Kalculator
       clause('expression SUB expression')  { |e0, _, e1| [:-, e0, e1] }
       clause('expression MUL expression')  { |e0, _, e1| [:*, e0, e1] }
       clause('expression DIV expression')  { |e0, _, e1| [:/, e0, e1] }
+    end
+
+    production(:expressions) do
+      clause('expression') { |expression| [expression] }
+      clause('expression COMMA expressions') { |expression, _, expressions| [expression].concat(expressions) }
     end
 
     finalize()
