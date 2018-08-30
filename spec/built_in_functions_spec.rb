@@ -8,16 +8,23 @@ RSpec.describe Kalculator::Formula do
       it "returns false when there is no match" do
         expect(Kalculator.evaluate("contains(\"ohai\", \"Dwight\")")).to eq(false)
       end
+    end
 
-      it "handles incorrect types on string" do
-        data = {"a" => 1, "b" => "wat"}
-        expect { Kalculator.evaluate("contains(a, b)", data) }.to raise_error(Kalculator::TypeError)
+    context "with lists" do
+      it "can find an integer in a list of integers" do
+        expect(Kalculator.evaluate("contains([1,2,3], 2)")).to eq(true)
+        expect(Kalculator.evaluate("contains([1,2,3], 4)")).to eq(false)
       end
+    end
 
-      it "handles incorrect types on substring" do
-        data = {"a" => "hey", "b" => 4}
-        expect { Kalculator.evaluate("contains(a, b)", data) }.to raise_error(Kalculator::TypeError)
-      end
+    it "handles incorrect types on string" do
+      data = {"a" => 1, "b" => "wat"}
+      expect { Kalculator.evaluate("contains(a, b)", data) }.to raise_error(Kalculator::TypeError)
+    end
+
+    it "handles incorrect types on substring" do
+      data = {"a" => "hey", "b" => 4}
+      expect { Kalculator.evaluate("contains(a, b)", data) }.to raise_error(Kalculator::TypeError)
     end
   end
 

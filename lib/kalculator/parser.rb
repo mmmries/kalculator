@@ -7,8 +7,8 @@ class Kalculator
     #Left     600 '.'.
 
     production(:expression) do
-      clause('CONTAINS LPAREN expression COMMA expression RPAREN') do |_, _, string, _, substring, _|
-        [:contains, string, substring]
+      clause('CONTAINS LPAREN expression COMMA expression RPAREN') do |_, _, collection, _, item, _|
+        [:contains, collection, item]
       end
       clause('IF LPAREN expression COMMA expression COMMA expression RPAREN') do |_, _, condition, _, true_clause, _, false_clause, _|
         [:if, condition, true_clause, false_clause]

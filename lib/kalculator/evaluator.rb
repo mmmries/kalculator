@@ -56,13 +56,16 @@ class Kalculator
       boolean
     end
 
-    def contains(_, string, substring)
-      string = evaluate(string)
-      substring = evaluate(substring)
-      unless string.is_a?(String) && substring.is_a?(String)
-        raise TypeError, "contains only works with strings, got #{string.inspect} and #{substring.inspect}"
+    def contains(_, collection, item)
+      collection = evaluate(collection)
+      item = evaluate(item)
+      if collection.is_a?(Array)
+        collection.include?(item)
+      elsif collection.is_a?(String) && item.is_a?(String)
+        collection.include?(item)
+      else
+        raise TypeError, "contains only works with strings or lists, got #{collection.inspect} and #{item.inspect}"
       end
-      string.include?(substring)
     end
 
     def if(_, condition, true_clause, false_clause)
@@ -71,6 +74,10 @@ class Kalculator
       else
         evaluate(false_clause)
       end
+    end
+
+    def list(_, expressions)
+      expressions.map{|expression| evaluate(expression) }
     end
 
     def number(_, number)
