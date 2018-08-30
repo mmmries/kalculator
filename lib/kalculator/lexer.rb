@@ -15,9 +15,9 @@ class Kalculator
     rule(/==/)       { :EQ     }
     rule(/AND/)      { :AND    }
     rule(/OR/)       { :OR     }
-    rule(/\d+/)      { |t| [:NUMBER, t.to_i] }
-    rule(/\.\d+/)    { |t| [:NUMBER, t.to_f] }
-    rule(/\d+\.\d+/) { |t| [:NUMBER, t.to_f] }
+    rule(/\-?\d+/)      { |t| [:NUMBER, t.to_i] }
+    rule(/\-?\.\d+/)    { |t| [:NUMBER, t.to_f] }
+    rule(/\-?\d+\.\d+/) { |t| [:NUMBER, t.to_f] }
     rule(/contains/) { |t| :CONTAINS }
     rule(/if/)       { |t| :IF }
     rule(/sum/)      { |t| :SUM }

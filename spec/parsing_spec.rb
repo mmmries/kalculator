@@ -24,5 +24,16 @@ RSpec.describe Kalculator do
       calc = Kalculator.new("a.foo + B.Bar")
       expect(calc.ast).to eq([:+, [:variable, "a.foo"], [:variable, "B.Bar"]])
     end
+
+    it "parses negative whole numbers" do
+      calc = Kalculator.new("-10")
+      expect(calc.ast).to eq([:number, -10])
+    end
+
+    it "parses negative floating point numbers" do
+      expect(Kalculator.new("-1.5").ast).to eq([:number, -1.5])
+      expect(Kalculator.new("-0.5").ast).to eq([:number, -0.5])
+      expect(Kalculator.new("-.5").ast).to  eq([:number, -0.5])
+    end
   end
 end
