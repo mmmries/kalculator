@@ -17,6 +17,7 @@ class Kalculator
         [:sum, e0]
       end
       clause('LPAREN expression RPAREN') { |_, expression, _| expression }
+      clause('LBRACKET expressions RBRACKET') { |_, expressions, _| [:list, expressions] }
 
       clause('NUMBER') { |n| [:number, n] }
       clause('STRING') { |s| [:string, s] }
@@ -37,6 +38,11 @@ class Kalculator
       clause('expression SUB expression')  { |e0, _, e1| [:-, e0, e1] }
       clause('expression MUL expression')  { |e0, _, e1| [:*, e0, e1] }
       clause('expression DIV expression')  { |e0, _, e1| [:/, e0, e1] }
+    end
+
+    production(:expressions) do
+      clause('expression') { |expression| [expression] }
+      clause('expression COMMA expressions') { |expression, _, expressions| [expression].concat(expressions) }
     end
 
     finalize()
