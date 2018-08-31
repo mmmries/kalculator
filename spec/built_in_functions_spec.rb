@@ -38,6 +38,11 @@ RSpec.describe Kalculator::Formula do
       expect(sum).to be_within(0.01).of(5.5)
     end
 
+    it "can sum over an list literal" do
+      sum = Kalculator.evaluate("sum([1, 2, 3, 4, 5])")
+      expect(sum).to equal(15)
+    end
+
     it "handles incorrect container type" do
       expect {
         Kalculator.evaluate("sum(\"wat\")")
