@@ -30,6 +30,7 @@ class Kalculator
       clause('expression LT expression') { |e0, _, e1| [:<, e0, e1] }
       clause('expression LTE expression') { |e0, _, e1| [:<=, e0, e1] }
       clause('expression EQ expression') { |e0, _, e1| [:==, e0, e1] }
+      clause('expression NEQ expression') { |e0, _, e1| [:!=, e0, e1] }
 
       clause('expression AND expression') { |e0, _, e1| [:and, e0, e1] }
       clause('expression OR expression') { |e0, _, e1| [:or, e0, e1] }
@@ -38,6 +39,8 @@ class Kalculator
       clause('expression SUB expression')  { |e0, _, e1| [:-, e0, e1] }
       clause('expression MUL expression')  { |e0, _, e1| [:*, e0, e1] }
       clause('expression DIV expression')  { |e0, _, e1| [:/, e0, e1] }
+
+      clause('BANG expression')           { |_, e0| [:not, e0] }
     end
 
     production(:expressions) do

@@ -44,6 +44,10 @@ class Kalculator
       evaluate(left) == evaluate(right)
     end
 
+    def !=(_, left, right)
+      evaluate(left) != evaluate(right)
+    end
+
     def and(_, left, right)
       evaluate(left) && evaluate(right)
     end
@@ -78,6 +82,12 @@ class Kalculator
 
     def list(_, expressions)
       expressions.map{|expression| evaluate(expression) }
+    end
+
+    def not(_, expression)
+      bool = evaluate(expression)
+      raise TypeError, "! only works with booleans, got #{bool.inspect}" unless bool === true || bool === false
+      !bool
     end
 
     def number(_, number)
