@@ -28,6 +28,28 @@ RSpec.describe Kalculator::Formula do
     end
   end
 
+  describe "count" do
+    it "can count the entries in a list" do
+      expect(Kalculator.evaluate("count(numbers)", {"numbers" => [1,2,3,4]})).to eq(4)
+    end
+
+    it "can count the entries in a list literal" do
+      expect(Kalculator.evaluate("count([true, false, true, false, true, false])")).to eq(6)
+    end
+
+    it "cannot count numbers" do
+      expect {
+        Kalculator.evaluate("count(6)")
+      }.to raise_error(Kalculator::TypeError)
+    end
+
+    it "cannot count strings" do
+      expect {
+        Kalculator.evaluate("count(\"ohai\")")
+      }.to raise_error(Kalculator::TypeError)
+    end
+  end
+
   describe "sum" do
     it "can sum a list of numbers" do
       expect(Kalculator.evaluate("sum(numbers)", {"numbers" => [1,2,3,4]})).to eq(10)

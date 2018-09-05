@@ -46,6 +46,14 @@ RSpec.describe Kalculator do
       expect(Kalculator.evaluate("if(1 > 1, 1 + 1, 2 + 2)")).to eq(4)
     end
 
+    it "evaluates nested ifs" do
+      formula = 'if(A, if(B, "B True", "B False"), if(C, "C True", "C False"))'
+      expect(Kalculator.evaluate(formula, {"A" => true, "B" => true})).to eq("B True")
+      expect(Kalculator.evaluate(formula, {"A" => true, "B" => false})).to eq("B False")
+      expect(Kalculator.evaluate(formula, {"A" => false, "C" => true})).to eq("C True")
+      expect(Kalculator.evaluate(formula, {"A" => false, "C" => false})).to eq("C False")
+    end
+
     it "evaluates sum" do
       expect(Kalculator.evaluate("sum(a)", {"a" => [1,2,3,4]})).to eq(10)
     end

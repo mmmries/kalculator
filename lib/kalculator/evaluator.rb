@@ -72,6 +72,12 @@ class Kalculator
       end
     end
 
+    def count(_, collection)
+      collection = evaluate(collection)
+      raise TypeError, "count only works with Enumerable types, got #{collection.inspect}" unless collection.is_a?(Enumerable)
+      collection.count
+    end
+
     def if(_, condition, true_clause, false_clause)
       if evaluate(condition)
         evaluate(true_clause)

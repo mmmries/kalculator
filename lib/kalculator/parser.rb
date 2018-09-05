@@ -16,6 +16,9 @@ class Kalculator
       clause('SUM LPAREN expression RPAREN') do |_, _, e0, _|
         [:sum, e0]
       end
+      clause('COUNT LPAREN expression RPAREN') do |_, _, e0, _|
+        [:count, e0]
+      end
       clause('LPAREN expression RPAREN') { |_, expression, _| expression }
       clause('LBRACKET expressions RBRACKET') { |_, expressions, _| [:list, expressions] }
 
