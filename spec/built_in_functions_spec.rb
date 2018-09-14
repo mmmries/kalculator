@@ -77,4 +77,38 @@ RSpec.describe Kalculator::Formula do
       }.to raise_error(Kalculator::TypeError, "sum only works with lists of numbers, got [1, 2, \"wat\"]")
     end
   end
+
+  describe "max" do
+    it "returns the max of two numbers" do
+      expect(Kalculator.evaluate("max(18, 20)")).to eq(20)
+      expect(Kalculator.evaluate("max(20, 18)")).to eq(20)
+      expect(Kalculator.evaluate("max(100.0, 20)")).to eq(100.0)
+    end
+
+    it "handles incorrect types" do
+      expect {
+        Kalculator.evaluate("max(\"ohai\", 5)")
+      }.to raise_error(Kalculator::TypeError, "max only works with numbers, got \"ohai\"")
+      expect {
+        Kalculator.evaluate("max(4, [1, 2, 3])")
+      }.to raise_error(Kalculator::TypeError, "max only works with numbers, got [1, 2, 3]")
+    end
+  end
+
+  describe "min" do
+    it "returns the min of two numbers" do
+      expect(Kalculator.evaluate("min(18, 20)")).to eq(18)
+      expect(Kalculator.evaluate("min(20, 18)")).to eq(18)
+      expect(Kalculator.evaluate("min(1.0, 20)")).to eq(1.0)
+    end
+
+    it "handles incorrect types" do
+      expect {
+        Kalculator.evaluate("min(\"ohai\", 5)")
+      }.to raise_error(Kalculator::TypeError, "min only works with numbers, got \"ohai\"")
+      expect {
+        Kalculator.evaluate("min(4, [1, 2, 3])")
+      }.to raise_error(Kalculator::TypeError, "min only works with numbers, got [1, 2, 3]")
+    end
+  end
 end

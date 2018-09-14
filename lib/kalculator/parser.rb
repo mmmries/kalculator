@@ -19,6 +19,8 @@ class Kalculator
       clause('COUNT LPAREN expression RPAREN') do |_, _, e0, _|
         [:count, e0]
       end
+      clause('MAX LPAREN expression COMMA expression RPAREN') { |_, _, left, _, right, _| [:max, left, right] }
+      clause('MIN LPAREN expression COMMA expression RPAREN') { |_, _, left, _, right, _| [:min, left, right] }
       clause('LPAREN expression RPAREN') { |_, expression, _| expression }
       clause('LBRACKET expressions RBRACKET') { |_, expressions, _| [:list, expressions] }
 

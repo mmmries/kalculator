@@ -25,6 +25,8 @@ class Kalculator
     rule(/contains/) { |t| :CONTAINS }
     rule(/count/)    { |t| :COUNT }
     rule(/if/)       { |t| :IF }
+    rule(/max/)      { |t| :MAX }
+    rule(/min/)      { |t| :MIN }
     rule(/sum/)      { |t| :SUM }
     rule(/true/)     { |t| :TRUE }
     rule(/false/)    { |t| :FALSE }
