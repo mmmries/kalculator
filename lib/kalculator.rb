@@ -6,6 +6,7 @@ require "kalculator/formula"
 require "kalculator/lexer"
 require "kalculator/nested_lookup"
 require "kalculator/parser"
+require "kalculator/transform"
 require "kalculator/version"
 
 class Kalculator
@@ -15,5 +16,9 @@ class Kalculator
 
   def self.new(*args)
     Kalculator::Formula.new(*args)
+  end
+
+  def self.parse(formula)
+    Kalculator::Parser.parse(Kalculator::Lexer.lex(formula))
   end
 end
