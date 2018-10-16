@@ -24,6 +24,7 @@ class Kalculator
     rule(/\-?\d+\.\d+/) { |t| [:NUMBER, t.to_f] }
     rule(/contains/) { |t| :CONTAINS }
     rule(/count/)    { |t| :COUNT }
+    rule(/date/)     { |t| :DATE }
     rule(/if/)       { |t| :IF }
     rule(/max/)      { |t| :MAX }
     rule(/min/)      { |t| :MIN }

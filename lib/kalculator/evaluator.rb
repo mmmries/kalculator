@@ -1,3 +1,5 @@
+require "date"
+
 class Kalculator
   class Evaluator
     def initialize(data_source)
@@ -76,6 +78,12 @@ class Kalculator
       collection = evaluate(collection)
       raise TypeError, "count only works with Enumerable types, got #{collection.inspect}" unless collection.is_a?(Enumerable)
       collection.count
+    end
+
+    def date(_, expression)
+      value = evaluate(expression)
+      raise TypeError, "date only works with Strings, got #{value.inspect}" unless value.is_a?(String)
+      Date.parse(value)
     end
 
     def if(_, condition, true_clause, false_clause)
