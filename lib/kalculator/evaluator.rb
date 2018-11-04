@@ -128,6 +128,10 @@ class Kalculator
       number
     end
 
+    def percent(_, percent)
+      percent / 100.0
+    end
+
     def string(_, string)
       string
     end

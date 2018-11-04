@@ -31,6 +31,7 @@ class Kalculator
       clause('LBRACKET expressions RBRACKET') { |_, expressions, _| [:list, expressions] }
 
       clause('NUMBER') { |n| [:number, n] }
+      clause('PERCENT') { |n| [:percent, n] }
       clause('STRING') { |s| [:string, s] }
       clause('IDENT') { |n| [:variable, n] }
       clause('TRUE') { |n| [:boolean, true] }
