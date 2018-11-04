@@ -19,6 +19,9 @@ class Kalculator
     rule(/AND/)      { :AND      }
     rule(/OR/)       { :OR       }
     rule(/!/)        { :BANG     }
+    rule(/\-?\d+%/)      { |t| [:PERCENT, t.to_i] }
+    rule(/\-?\.\d+%/)    { |t| [:PERCENT, t.to_f] }
+    rule(/\-?\d+\.\d+%/) { |t| [:PERCENT, t.to_f] }
     rule(/\-?\d+/)      { |t| [:NUMBER, t.to_i] }
     rule(/\-?\.\d+/)    { |t| [:NUMBER, t.to_f] }
     rule(/\-?\d+\.\d+/) { |t| [:NUMBER, t.to_f] }
