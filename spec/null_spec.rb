@@ -1,6 +1,7 @@
 RSpec.describe "parsing and evaluating nulls" do
   it "can parse a null" do
     expect(Kalculator.evaluate("null")).to be_nil
+    expect(Kalculator.evaluate("NULL")).to be_nil
   end
 
   it "can compare null" do
