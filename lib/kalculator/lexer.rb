@@ -16,6 +16,8 @@ class Kalculator
     rule(/<=/)       { :LTE      }
     rule(/==/)       { :EQ       }
     rule(/!=/)       { :NEQ      }
+    rule(/and/)      { :AND      }
+    rule(/or/)       { :OR       }
     rule(/AND/)      { :AND      }
     rule(/OR/)       { :OR       }
     rule(/!/)        { :BANG     }
@@ -35,6 +37,10 @@ class Kalculator
     rule(/sum/)      { |t| :SUM }
     rule(/true/)     { |t| :TRUE }
     rule(/false/)    { |t| :FALSE }
+    rule(/null/)     { |t| :NULL }
+    rule(/TRUE/)     { |t| :TRUE }
+    rule(/FALSE/)    { |t| :FALSE }
+    rule(/NULL/)     { |t| :NULL }
     rule(/"[^"]*"/)  { |t| [:STRING, t[1..-2]] }
     rule(/[A-Za-z][A-Za-z0-9\._]*/) { |t| [:IDENT, t] }
   end

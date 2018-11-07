@@ -36,6 +36,7 @@ class Kalculator
       clause('IDENT') { |n| [:variable, n] }
       clause('TRUE') { |n| [:boolean, true] }
       clause('FALSE') { |n| [:boolean, false] }
+      clause('NULL') { |n| [:null, nil] }
 
       clause('expression GT expression') { |e0, _, e1| [:>, e0, e1] }
       clause('expression GTE expression') { |e0, _, e1| [:>=, e0, e1] }

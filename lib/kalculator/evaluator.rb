@@ -124,6 +124,10 @@ class Kalculator
       !bool
     end
 
+    def null(_, _)
+      nil
+    end
+
     def number(_, number)
       number
     end
