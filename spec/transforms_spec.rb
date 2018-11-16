@@ -47,4 +47,13 @@ RSpec.describe Kalculator::Transform do
       ]
     ])
   end
+
+  it "can replaces variables inside of exists calls" do
+    ast = Kalculator.parse("exists(ohai)")
+    new_ast = Kalculator::Transform.run(ast) do |node|
+      next node unless node.is_a?(Array) && node.first == :variable
+      [:variable, "wat"]
+    end
+    expect(new_ast).to eq([:exists, [:variable, "wat"]])
+  end
 end
