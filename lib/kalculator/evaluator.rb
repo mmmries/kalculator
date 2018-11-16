@@ -86,8 +86,9 @@ class Kalculator
       Date.parse(value)
     end
 
-    def exists(_, variable_name)
-      @data_source.key?(variable_name)
+    def exists(_, variable)
+      (_variable, name) = variable
+      @data_source.key?(name)
     end
 
     def if(_, condition, true_clause, false_clause)

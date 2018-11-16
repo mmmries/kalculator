@@ -23,7 +23,7 @@ class Kalculator
         [:date, e0]
       end
       clause('EXISTS LPAREN IDENT RPAREN') do |_, _, n, _|
-        [:exists, n]
+        [:exists, [:variable, n]]
       end
       clause('MAX LPAREN expression COMMA expression RPAREN') { |_, _, left, _, right, _| [:max, left, right] }
       clause('MIN LPAREN expression COMMA expression RPAREN') { |_, _, left, _, right, _| [:min, left, right] }
