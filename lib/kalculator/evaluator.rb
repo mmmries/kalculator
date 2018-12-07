@@ -9,6 +9,12 @@ class Kalculator
       ["count", 1] => lambda { |list|
         Kalculator::BuiltInFunctions.count(list)
       },
+      ["date", 1] => lambda { |str|
+        Kalculator::BuiltInFunctions.date(str)
+      },
+      ["sum", 1] => lambda { |array|
+        Kalculator::BuiltInFunctions.sum(array)
+      }
     }
 
     def initialize(data_source)
@@ -69,12 +75,6 @@ class Kalculator
 
     def boolean(_, boolean)
       boolean
-    end
-
-    def date(_, expression)
-      value = evaluate(expression)
-      raise TypeError, "date only works with Strings, got #{value.inspect}" unless value.is_a?(String)
-      Date.parse(value)
     end
 
     def exists(_, variable)
@@ -138,14 +138,6 @@ class Kalculator
 
     def string(_, string)
       string
-    end
-
-    def sum(_, array)
-      array = evaluate(array)
-      unless array.is_a?(Array) && array.all?{|n| n.is_a?(Numeric)}
-        raise TypeError, "sum only works with lists of numbers, got #{array.inspect}"
-      end
-      array.inject(0){|sum, num| sum + num}
     end
 
     def variable(_, name)

@@ -10,12 +10,6 @@ class Kalculator
       clause('IF LPAREN expression COMMA expression COMMA expression RPAREN') do |_, _, condition, _, true_clause, _, false_clause, _|
         [:if, condition, true_clause, false_clause]
       end
-      clause('SUM LPAREN expression RPAREN') do |_, _, e0, _|
-        [:sum, e0]
-      end
-      clause('DATE LPAREN expression RPAREN') do |_, _, e0, _|
-        [:date, e0]
-      end
       clause('EXISTS LPAREN IDENT RPAREN') do |_, _, n, _|
         [:exists, [:variable, n]]
       end
