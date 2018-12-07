@@ -7,17 +7,11 @@ class Kalculator
     #Left     600 '.'.
 
     production(:expression) do
-      clause('CONTAINS LPAREN expression COMMA expression RPAREN') do |_, _, collection, _, item, _|
-        [:contains, collection, item]
-      end
       clause('IF LPAREN expression COMMA expression COMMA expression RPAREN') do |_, _, condition, _, true_clause, _, false_clause, _|
         [:if, condition, true_clause, false_clause]
       end
       clause('SUM LPAREN expression RPAREN') do |_, _, e0, _|
         [:sum, e0]
-      end
-      clause('COUNT LPAREN expression RPAREN') do |_, _, e0, _|
-        [:count, e0]
       end
       clause('DATE LPAREN expression RPAREN') do |_, _, e0, _|
         [:date, e0]
@@ -29,6 +23,7 @@ class Kalculator
       clause('MIN LPAREN expression COMMA expression RPAREN') { |_, _, left, _, right, _| [:min, left, right] }
       clause('LPAREN expression RPAREN') { |_, expression, _| expression }
       clause('LBRACKET expressions RBRACKET') { |_, expressions, _| [:list, expressions] }
+      clause('IDENT LPAREN expressions RPAREN') { |fn_name, _, expressions, _| [:fn_call, fn_name, expressions] }
 
       clause('NUMBER') { |n| [:number, n] }
       clause('PERCENT') { |n| [:percent, n] }

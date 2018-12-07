@@ -1,4 +1,5 @@
 require "rltk"
+require "kalculator/built_in_functions"
 require "kalculator/data_sources"
 require "kalculator/errors"
 require "kalculator/evaluator"

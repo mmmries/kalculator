@@ -2,6 +2,15 @@ require "date"
 
 class Kalculator
   class Evaluator
+    FUNCTIONS = {
+      ["contains", 2] => lambda { |collection, item|
+        Kalculator::BuiltInFunctions.contains(collection, item)
+      },
+      ["count", 1] => lambda { |list|
+        Kalculator::BuiltInFunctions.count(list)
+      },
+    }
+
     def initialize(data_source)
       @data_source = data_source
     end
@@ -62,24 +71,6 @@ class Kalculator
       boolean
     end
 
-    def contains(_, collection, item)
-      collection = evaluate(collection)
-      item = evaluate(item)
-      if collection.is_a?(Array)
-        collection.include?(item)
-      elsif collection.is_a?(String) && item.is_a?(String)
-        collection.include?(item)
-      else
-        raise TypeError, "contains only works with strings or lists, got #{collection.inspect} and #{item.inspect}"
-      end
-    end
-
-    def count(_, collection)
-      collection = evaluate(collection)
-      raise TypeError, "count only works with Enumerable types, got #{collection.inspect}" unless collection.is_a?(Enumerable)
-      collection.count
-    end
-
     def date(_, expression)
       value = evaluate(expression)
       raise TypeError, "date only works with Strings, got #{value.inspect}" unless value.is_a?(String)
@@ -89,6 +80,14 @@ class Kalculator
     def exists(_, variable)
       (_variable, name) = variable
       @data_source.key?(name)
+    end
+
+    def fn_call(_, fn_name, expressions)
+      key = [fn_name, expressions.count]
+      fn = FUNCTIONS[key]
+      raise UndefinedFunctionError, "no such function #{fn_name}/#{args.count}" if fn.nil?
+      args = expressions.map{|expression| evaluate(expression) }
+      return fn.call(*args)
     end
 
     def if(_, condition, true_clause, false_clause)

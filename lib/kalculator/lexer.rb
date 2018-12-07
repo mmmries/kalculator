@@ -27,8 +27,6 @@ class Kalculator
     rule(/\-?\d+/)      { |t| [:NUMBER, t.to_i] }
     rule(/\-?\.\d+/)    { |t| [:NUMBER, t.to_f] }
     rule(/\-?\d+\.\d+/) { |t| [:NUMBER, t.to_f] }
-    rule(/contains/) { |t| :CONTAINS }
-    rule(/count/)    { |t| :COUNT }
     rule(/date/)     { |t| :DATE }
     rule(/exists/)   { |t| :EXISTS }
     rule(/if/)       { |t| :IF }
