@@ -2,21 +2,6 @@ require "date"
 
 class Kalculator
   class Evaluator
-    FUNCTIONS = {
-      ["contains", 2] => lambda { |collection, item|
-        Kalculator::BuiltInFunctions.contains(collection, item)
-      },
-      ["count", 1] => lambda { |list|
-        Kalculator::BuiltInFunctions.count(list)
-      },
-      ["date", 1] => lambda { |str|
-        Kalculator::BuiltInFunctions.date(str)
-      },
-      ["sum", 1] => lambda { |array|
-        Kalculator::BuiltInFunctions.sum(array)
-      }
-    }
-
     def initialize(data_source)
       @data_source = data_source
     end
@@ -84,8 +69,8 @@ class Kalculator
 
     def fn_call(_, fn_name, expressions)
       key = [fn_name, expressions.count]
-      fn = FUNCTIONS[key]
-      raise UndefinedFunctionError, "no such function #{fn_name}/#{args.count}" if fn.nil?
+      fn = Kalculator::BUILT_IN_FUNCTIONS[key]
+      raise UndefinedFunctionError, "no such function #{fn_name}/#{expressions.count}" if fn.nil?
       args = expressions.map{|expression| evaluate(expression) }
       return fn.call(*args)
     end

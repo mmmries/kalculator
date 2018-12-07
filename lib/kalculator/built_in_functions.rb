@@ -1,11 +1,6 @@
 class Kalculator
-  module BuiltInFunctions
-    def self.count(collection)
-      raise TypeError, "count only works with Enumerable types, got #{collection.inspect}" unless collection.is_a?(Enumerable)
-      collection.count
-    end
-
-    def self.contains(collection, item)
+  BUILT_IN_FUNCTIONS = {
+    ["contains", 2] => lambda { |collection, item|
       if collection.is_a?(Array)
         collection.include?(item)
       elsif collection.is_a?(String) && item.is_a?(String)
@@ -13,18 +8,20 @@ class Kalculator
       else
         raise TypeError, "contains only works with strings or lists, got #{collection.inspect} and #{item.inspect}"
       end
-    end
-
-    def self.date(str)
+    },
+    ["count", 1] => lambda { |list|
+      raise TypeError, "count only works with Enumerable types, got #{list.inspect}" unless list.is_a?(Enumerable)
+      list.count
+    },
+    ["date", 1] => lambda { |str|
       raise TypeError, "date only works with Strings, got #{str.inspect}" unless str.is_a?(String)
       Date.parse(str)
-    end
-
-    def self.sum(array)
-      unless array.is_a?(Array) && array.all?{|n| n.is_a?(Numeric)}
-        raise TypeError, "sum only works with lists of numbers, got #{array.inspect}"
+    },
+    ["sum", 1] => lambda { |list|
+      unless list.is_a?(Array) && list.all?{|n| n.is_a?(Numeric)}
+        raise TypeError, "sum only works with lists of numbers, got #{list.inspect}"
       end
-      array.inject(0){|sum, num| sum + num}
-    end
-  end
+      list.inject(0){|sum, num| sum + num}
+    },
+  }.freeze
 end
