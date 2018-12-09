@@ -2,8 +2,9 @@ require "date"
 
 class Kalculator
   class Evaluator
-    def initialize(data_source)
+    def initialize(data_source, custom_functions = {})
       @data_source = data_source
+      @functions = Kalculator::BUILT_IN_FUNCTIONS.merge(custom_functions)
     end
 
     def evaluate(ast)
@@ -69,7 +70,7 @@ class Kalculator
 
     def fn_call(_, fn_name, expressions)
       key = [fn_name, expressions.count]
-      fn = Kalculator::BUILT_IN_FUNCTIONS[key]
+      fn = @functions[key]
       raise UndefinedFunctionError, "no such function #{fn_name}/#{expressions.count}" if fn.nil?
       args = expressions.map{|expression| evaluate(expression) }
       return fn.call(*args)
