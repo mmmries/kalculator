@@ -29,8 +29,6 @@ class Kalculator
     rule(/\-?\d+\.\d+/) { |t| [:NUMBER, t.to_f] }
     rule(/exists/)   { |t| :EXISTS }
     rule(/if/)       { |t| :IF }
-    rule(/max/)      { |t| :MAX }
-    rule(/min/)      { |t| :MIN }
     rule(/true/)     { |t| :TRUE }
     rule(/false/)    { |t| :FALSE }
     rule(/null/)     { |t| :NULL }

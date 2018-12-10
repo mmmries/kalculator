@@ -17,6 +17,16 @@ class Kalculator
       raise TypeError, "date only works with Strings, got #{str.inspect}" unless str.is_a?(String)
       Date.parse(str)
     },
+    ["max", 2] => lambda { |left, right|
+      raise TypeError, "max only works with numbers, got #{left.inspect}" unless left.is_a?(Numeric)
+      raise TypeError, "max only works with numbers, got #{right.inspect}" unless right.is_a?(Numeric)
+      [left, right].max
+    },
+    ["min", 2] => lambda { |left, right|
+      raise TypeError, "min only works with numbers, got #{left.inspect}" unless left.is_a?(Numeric)
+      raise TypeError, "min only works with numbers, got #{right.inspect}" unless right.is_a?(Numeric)
+      [left, right].min
+    },
     ["sum", 1] => lambda { |list|
       unless list.is_a?(Array) && list.all?{|n| n.is_a?(Numeric)}
         raise TypeError, "sum only works with lists of numbers, got #{list.inspect}"

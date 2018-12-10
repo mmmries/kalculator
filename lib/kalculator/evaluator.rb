@@ -88,22 +88,6 @@ class Kalculator
       expressions.map{|expression| evaluate(expression) }
     end
 
-    def max(_, left, right)
-      left = evaluate(left)
-      right = evaluate(right)
-      raise TypeError, "max only works with numbers, got #{left.inspect}" unless left.is_a?(Numeric)
-      raise TypeError, "max only works with numbers, got #{right.inspect}" unless right.is_a?(Numeric)
-      [left, right].max
-    end
-
-    def min(_, left, right)
-      left = evaluate(left)
-      right = evaluate(right)
-      raise TypeError, "min only works with numbers, got #{left.inspect}" unless left.is_a?(Numeric)
-      raise TypeError, "min only works with numbers, got #{right.inspect}" unless right.is_a?(Numeric)
-      [left, right].min
-    end
-
     def not(_, expression)
       bool = evaluate(expression)
       raise TypeError, "! only works with booleans, got #{bool.inspect}" unless bool === true || bool === false

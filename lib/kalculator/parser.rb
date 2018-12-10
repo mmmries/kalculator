@@ -13,8 +13,6 @@ class Kalculator
       clause('EXISTS LPAREN IDENT RPAREN') do |_, _, n, _|
         [:exists, [:variable, n]]
       end
-      clause('MAX LPAREN expression COMMA expression RPAREN') { |_, _, left, _, right, _| [:max, left, right] }
-      clause('MIN LPAREN expression COMMA expression RPAREN') { |_, _, left, _, right, _| [:min, left, right] }
       clause('LPAREN expression RPAREN') { |_, expression, _| expression }
       clause('LBRACKET expressions RBRACKET') { |_, expressions, _| [:list, expressions] }
       clause('IDENT LPAREN expressions RPAREN') { |fn_name, _, expressions, _| [:fn_call, fn_name, expressions] }
