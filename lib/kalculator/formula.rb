@@ -7,8 +7,8 @@ class Kalculator
       @string = string
     end
 
-    def evaluate(data_source = {})
-      Kalculator::Evaluator.new(data_source).evaluate(ast)
+    def evaluate(data_source = {}, custom_functions = {})
+      Kalculator::Evaluator.new(data_source, custom_functions).evaluate(ast)
     end
   end
 end

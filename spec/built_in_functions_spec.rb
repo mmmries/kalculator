@@ -111,4 +111,10 @@ RSpec.describe Kalculator::Formula do
       }.to raise_error(Kalculator::TypeError, "min only works with numbers, got [1, 2, 3]")
     end
   end
+
+  it "raises a specific error for undefined functions" do
+    expect {
+      Kalculator.evaluate("wat(123)")
+    }.to raise_error(Kalculator::UndefinedFunctionError, "no such function wat/1")
+  end
 end

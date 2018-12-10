@@ -27,14 +27,8 @@ class Kalculator
     rule(/\-?\d+/)      { |t| [:NUMBER, t.to_i] }
     rule(/\-?\.\d+/)    { |t| [:NUMBER, t.to_f] }
     rule(/\-?\d+\.\d+/) { |t| [:NUMBER, t.to_f] }
-    rule(/contains/) { |t| :CONTAINS }
-    rule(/count/)    { |t| :COUNT }
-    rule(/date/)     { |t| :DATE }
     rule(/exists/)   { |t| :EXISTS }
     rule(/if/)       { |t| :IF }
-    rule(/max/)      { |t| :MAX }
-    rule(/min/)      { |t| :MIN }
-    rule(/sum/)      { |t| :SUM }
     rule(/true/)     { |t| :TRUE }
     rule(/false/)    { |t| :FALSE }
     rule(/null/)     { |t| :NULL }

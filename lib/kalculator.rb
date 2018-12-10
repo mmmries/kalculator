@@ -1,4 +1,5 @@
 require "rltk"
+require "kalculator/built_in_functions"
 require "kalculator/data_sources"
 require "kalculator/errors"
 require "kalculator/evaluator"
@@ -10,8 +11,8 @@ require "kalculator/transform"
 require "kalculator/version"
 
 class Kalculator
-  def self.evaluate(formula, data_source = {})
-    Kalculator::Formula.new(formula).evaluate(data_source)
+  def self.evaluate(formula, data_source = {}, custom_functions = {})
+    Kalculator::Formula.new(formula).evaluate(data_source, custom_functions)
   end
 
   def self.new(*args)
