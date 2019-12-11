@@ -1,8 +1,12 @@
+#TODO: make it not check each level of ast
 require "date"
-
+require "kalculator/types"
+require "kalculator/validator"
+require "kalculator/type_sources"
 class Kalculator
   class Evaluator
     def initialize(data_source, custom_functions = {})
+
       @data_source = data_source
       @functions = Kalculator::BUILT_IN_FUNCTIONS.merge(custom_functions)
     end
@@ -11,55 +15,55 @@ class Kalculator
       send(ast.first, *ast)
     end
 
-    def +(_, left, right)
+    def +(_, left, right, _)
       evaluate(left) + evaluate(right)
     end
 
-    def -(_, left, right)
+    def -(_, left, right,_)
       evaluate(left) - evaluate(right)
     end
 
-    def *(_, left, right)
+    def *(_, left, right,_)
       evaluate(left) * evaluate(right)
     end
 
-    def /(_, left, right)
+    def /(_, left, right,_)
       evaluate(left) / evaluate(right)
     end
 
-    def >(_, left, right)
+    def >(_, left, right,_)
       evaluate(left) > evaluate(right)
     end
 
-    def >=(_, left, right)
+    def >=(_, left, right,_)
       evaluate(left) >= evaluate(right)
     end
 
-    def <(_, left, right)
+    def <(_, left, right,_)
       evaluate(left) < evaluate(right)
     end
 
-    def <=(_, left, right)
+    def <=(_, left, right,_)
       evaluate(left) <= evaluate(right)
     end
 
-    def ==(_, left, right)
+    def ==(_, left, right,_)
       evaluate(left) == evaluate(right)
     end
 
-    def !=(_, left, right)
+    def !=(_, left, right,_)
       evaluate(left) != evaluate(right)
     end
 
-    def and(_, left, right)
+    def and(_, left, right,_)
       evaluate(left) && evaluate(right)
     end
 
-    def or(_, left, right)
+    def or(_, left, right,_)
       evaluate(left) || evaluate(right)
     end
 
-    def boolean(_, boolean)
+    def boolean(_, boolean,_)
       boolean
     end
 
@@ -68,7 +72,7 @@ class Kalculator
       @data_source.key?(name)
     end
 
-    def fn_call(_, fn_name, expressions)
+    def fn_call(_, fn_name, expressions,_)
       key = [fn_name, expressions.count]
       fn = @functions[key]
       raise UndefinedFunctionError, "no such function #{fn_name}/#{expressions.count}" if fn.nil?
@@ -76,7 +80,7 @@ class Kalculator
       return fn.call(*args)
     end
 
-    def if(_, condition, true_clause, false_clause)
+    def if(_, condition, true_clause, false_clause,_)
       if evaluate(condition)
         evaluate(true_clause)
       else
@@ -84,33 +88,32 @@ class Kalculator
       end
     end
 
-    def list(_, expressions)
+    def list(_, expressions,_)
       expressions.map{|expression| evaluate(expression) }
     end
 
-    def not(_, expression)
+    def not(_, expression,_)
       bool = evaluate(expression)
-      raise TypeError, "! only works with booleans, got #{bool.inspect}" unless bool === true || bool === false
       !bool
     end
 
-    def null(_, _)
+    def null(_, _,_)
       nil
     end
 
-    def number(_, number)
+    def number(_, number,_)
       number
     end
 
-    def percent(_, percent)
+    def percent(_, percent,_)
       percent / 100.0
     end
 
-    def string(_, string)
+    def string(_, string,_)
       string
     end
 
-    def variable(_, name)
+    def variable(_, name,_)
       raise UndefinedVariableError, "undefined variable #{name}" unless @data_source.key?(name)
       @data_source[name]
     end
