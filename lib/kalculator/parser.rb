@@ -21,10 +21,10 @@ class Kalculator
       clause('NUMBER') { |n| [:number, n, Number] }
       clause('PERCENT') { |n| [:percent, n, Percent] }
       clause('STRING') { |s| [:string, s, String] }
-      clause('IDENT') { |n| [:variable, n, nil] }
+      clause('IDENT') { |n| [:variable, n, Object] }
       clause('TRUE') { |n| [:boolean, true, Bool] }
       clause('FALSE') { |n| [:boolean, false, Bool] }
-      clause('NULL') { |n| [:null, nil, Null] }
+      clause('NULL') { |n| [:null, nil, Object] }
 
       clause('expression GT expression') { |e0, _, e1| [:>, e0, e1, Bool] }
       clause('expression GTE expression') { |e0, _, e1| [:>=, e0, e1, Bool] }

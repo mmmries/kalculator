@@ -9,12 +9,12 @@ class Kalculator
       @type_source = type_source
       #e stores built in function type data
       #last index is ALWAYS the return type, and types before that are types of children from left to right
-      e = { "contains" => [Collection, Object, Bool],
-        "count" => [List, Number],
-        "date" => [String, Date],
+      e = { "contains" => [Collection.new(Object), Object, Bool],
+        "count" => [List.new(Object), Number],
+        "date" => [String.new, Date],
         "max"=> [Number,Number,Number],
         "min" => [Number,Number,Number],
-        "sum" => [NumberList, Number] #this only accepts number Lists
+        "sum" => [List.new(Number), Number] #this only accepts number Lists
       }
       @environment = e.merge(type_source.toHash)
     end
@@ -73,10 +73,10 @@ class Kalculator
 
     def <(_, left, right, type)
       a = validate(left)
-      if((a==validate(right)) and a<= Comparable)
+      if(a==validate(right))
         return Bool
       end
-    raise TypeError, "not comparing two of the same comparable types"
+    raise TypeError, "not comparing two of the same types"
     end
 
     def <=(_, left, right, type)
@@ -131,7 +131,7 @@ class Kalculator
     def fn_call(_, fn_name, expressions, type) #compare individually to make sure it is a subclass or class
       ex =expressions.map{|expression| validate(expression) }
       raise UndefinedVariableError, "undefined variable #{fn_name}" unless @environment.key?(fn_name)
-      if(ex.zip(@environment[fn_name]).all?{|a| a[0]<=a[1]}) # make sure each element is related to corresponding element in the funcion params
+      if(ex.zip(@environment[fn_name]).all?{|(arg_type, expected_type)| arg_type <= expected_type}) # make sure each element is related to corresponding element in the funcion params
         if(fn_name == "max" or fn_name == "min") #add functions here where output type depends on input type and all types must be exact same ie. max(Percent,Percent) => Percent max(Number,Percent)=> Error max(Number,Number)=>Number
           #check all expressions are same
           cmptype = ex[0]
@@ -140,15 +140,20 @@ class Kalculator
           end
           raise TypeError, "specialized function type error"
         end
-
-        ar = @environment[fn_name][@environment[fn_name].size - 1]
-        return ar
+        #add other specialized functions here
+        if(fn_name == "contains") #generic function in the format List<E>, E => ReturnType
+          if(ex[0].genericType?(ex[1]))
+            return @environment[fn_name][@environment[fn_name].size - 1]
+          end
+          raise TypeError, "generic function type error"
+        end
+        return @environment[fn_name][@environment[fn_name].size - 1]
       end
       raise TypeError, "function type error"
     end
 
     def if(_, condition, true_clause, false_clause, type)
-      if(validate(condition) <= Bool and validate(true_clause)==validate(false_clause))
+      if(validate(condition) <= Object and validate(true_clause)==validate(false_clause))
         return validate(true_clause)
       end
     raise TypeError, "if statement type error"
@@ -159,10 +164,7 @@ class Kalculator
 
       cmptype = ex[0]
       if( ex.all?{|t| t == cmptype})
-        if(cmptype <= Number) #add special types of list here
-          return NumberList
-        end
-        return List
+        return List.new(cmptype)
       end
     raise TypeError, "list type error"
 

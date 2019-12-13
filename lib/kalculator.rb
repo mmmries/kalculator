@@ -34,8 +34,8 @@ loop do
   end
 
   calc = Kalculator.new(line)
-  t = Kalculator::TypeSources.new({"daysOff"=>Kalculator::Number, "payroll"=> Kalculator::NumberList, "grade" => Kalculator::Percent}, {"alive"=>Kalculator::Bool, "nothing"=>Kalculator::Null, "name"=>Kalculator::String})
-  d = Kalculator::DataSources.new({"daysOff"=>8, "payroll"=> [8,5,100,59], "grade" => 50}, {"alive"=>false, "nothing"=>nil, "name"=>"bobby"})
+  t = Kalculator::TypeSources.new({"paycheck"=> Kalculator::Number,"daysOff"=>Kalculator::Number, "payroll"=> Kalculator::List.new(Kalculator::Number), "grade" => Kalculator::Percent}, {"alive"=>Kalculator::Bool, "nothing"=>Object, "name"=>Kalculator::String.new})
+  d = Kalculator::DataSources.new({"paycheck"=> 100, "daysOff"=>8, "payroll"=> [8,5,100,59], "grade" => 50}, {"alive"=>false, "nothing"=>nil, "name"=>"bobby"})
   puts( calc.evaluate(d, {},t))
 
 
