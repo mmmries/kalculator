@@ -12,6 +12,7 @@ class Kalculator
     end
 
     def evaluate(ast)
+      
       send(ast.first, *ast)
     end
 

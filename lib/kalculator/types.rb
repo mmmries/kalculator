@@ -5,7 +5,7 @@ class Kalculator
   class Bool; end
   class Date; end
 
-  
+
   class Collection
     attr_reader :type
     def initialize(type)
@@ -70,4 +70,11 @@ class Kalculator
     end
   end
 
+  class MappedObject < Collection
+    attr_reader :hash
+    def initialize(hash)
+      super(Object)
+      @hash = hash
+    end
+  end 
 end

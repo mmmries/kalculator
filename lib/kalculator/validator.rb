@@ -19,13 +19,14 @@ class Kalculator
 
     def validate(ast)
       send(ast.first, *ast)
+
     end
 
     def access(_,identifier,object,_)
       a = validate(object)
-      if((a.is_a?(Hash)))
-        if(a.key?(identifier))
-          return a[identifier]
+      if((a.is_a?(MappedObject)))
+        if(a.hash.key?(identifier))
+          return a.hash[identifier]
         end
         raise UndefinedVariableError, "object #{a} doesn't have type attribute #{identifier}"
       end
@@ -166,7 +167,7 @@ class Kalculator
       if(a.is_a?(Hash))
         a = Hash
       end
-      if(validate(condition) <= Object and validate(true_clause)==validate(false_clause))
+      if(a <= Object and validate(true_clause)==validate(false_clause))
         return validate(true_clause)
       end
     raise TypeError, "if statement type error"
@@ -212,5 +213,6 @@ class Kalculator
       raise UndefinedVariableError, "undefined variable #{name}" unless @environment.key?(name)
       return @environment[name]
     end
+
   end
 end

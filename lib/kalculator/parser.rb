@@ -17,6 +17,7 @@ class Kalculator
       clause('LPAREN expression RPAREN') { |_, expression, _| expression }
       clause('LBRACKET expressions RBRACKET') { |_, expressions, _| [:list, expressions, List] }
       clause('IDENT LPAREN expressions RPAREN') { |fn_name, _, expressions, _| [:fn_call, fn_name, expressions, nil] }
+      clause('expression LBRACKET STRING RBRACKET') { |object, _,ident, _| [:access, ident, object, nil]}
 
       clause('NUMBER') { |n| [:number, n, Number] }
       clause('PERCENT') { |n| [:percent, n, Percent] }
