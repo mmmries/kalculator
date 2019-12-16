@@ -20,7 +20,7 @@ class Kalculator
 
       clause('NUMBER') { |n| [:number, n, Number] }
       clause('PERCENT') { |n| [:percent, n, Percent] }
-      clause('STRING') { |s| [:string, s, String] }
+      clause('STRING') { |s| [:string, s, String.new] }
       clause('IDENT') { |n| [:variable, n, Object] }
       clause('TRUE') { |n| [:boolean, true, Bool] }
       clause('FALSE') { |n| [:boolean, false, Bool] }
