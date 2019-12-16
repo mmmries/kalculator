@@ -4,8 +4,6 @@ require "kalculator/types"
 class Kalculator
   class Validator
     def initialize(type_source)
-
-
       @type_source = type_source
       #e stores built in function type data
       #last index is ALWAYS the return type, and types before that are types of children from left to right
@@ -24,21 +22,16 @@ class Kalculator
     end
 
     def access(_,identifier,object,_)
-      puts "#{identifier}"
       a = validate(object)
-      puts "#{a}"
-      if(a.is_a?(Hash))
+      if((a.is_a?(Hash)))
         if(a.key?(identifier))
-          if(a[identifier].is_a?(Hash))
-            return Hash
-          end
-          puts a[identifier]
           return a[identifier]
         end
         raise UndefinedVariableError, "object #{a} doesn't have type attribute #{identifier}"
       end
       raise TypeError, "trying to access something that isn't an object"
     end
+
     def +(_, left, right, type)
       a = validate(left)
       if((a==validate(right)) and a <=Number)
@@ -219,16 +212,5 @@ class Kalculator
       raise UndefinedVariableError, "undefined variable #{name}" unless @environment.key?(name)
       return @environment[name]
     end
-
-
-
-
-
-
-
-
-
-
-
   end
 end

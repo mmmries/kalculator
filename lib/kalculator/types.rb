@@ -4,6 +4,8 @@ class Kalculator
   class Percent < Number; end
   class Bool; end
   class Date; end
+
+  
   class Collection
     attr_reader :type
     def initialize(type)

@@ -15,8 +15,6 @@ class Kalculator
       send(ast.first, *ast)
     end
 
-
-
     def access(_, identifier, object, _)
 
       a = evaluate(object)
