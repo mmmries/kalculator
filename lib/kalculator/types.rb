@@ -9,26 +9,50 @@ class Kalculator
     def initialize(type)
       @type = type
     end
-    def genericType?(possibleType)
-      return possibleType <= @type
+    def genericType?(possibleType) #possibleType has to either be a collection or a type
+      if(possibleType.class <= Kalculator::Collection)
+        return possibleType.type <= @type
+      end
+      if(possibleType.class == Class)
+        return possibleType <= @type
+      end
+      return false
     end
 
-    def ==(othertype)
-      if(othertype.is_a?(self.class))
+    def ==(othertype) #othertype has to be a collection or a type
+      if(othertype.class <= self.class)
           return othertype.type == self.type
       end
       return false
     end
 
-    def <=(othertype)
-      if(othertype.class == Class)
-        return self.class <= othertype
+    def <=(otherobject) # otherobject has to be a collection, a type, or some other object
+      if(otherobject.class <= Kalculator::Collection)
+        return ((self.class<= otherobject.class) and (self.type <= otherobject.type))
+      elsif(otherobject.class == Class)
+        if(otherobject == Object)
+          return true
+        end
+        return false
+      elsif(otherobject.class != Class)
+        return false
       end
-      if(self.class<= othertype.class)
-          return self.type <= othertype.type
-      end
+
       return false
     end
+
+    def >=(otherobject) # otherobject has to be a collection, a type, or some other object
+      if(otherobject.class <=Kalculator::Collection)
+        return otherobject<= self
+      elsif(otherobject.class == Class)
+        return false
+      elsif(otherobject.class != Class)
+        return false
+      end
+
+      return false
+    end
+
   end
 
   class String < Collection
