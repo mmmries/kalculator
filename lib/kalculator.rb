@@ -25,7 +25,6 @@ class Kalculator
     Kalculator::Parser.parse(Kalculator::Lexer.lex(formula))
   end
 end
-
 loop do
   print "\nKalc=>  "
   line =gets.chomp
@@ -33,7 +32,7 @@ loop do
     break
   end
   object = {"bob" => {"name" => "bob", "email" => "bob@spiff.com", "mother" => { "name" => "susan"}}}
-  objectType =  {"bob" => {"name" => Kalculator::String, "email" => Kalculator::String, "mother" => { "name" => Kalculator::String}}}
+  objectType =  {"bob" => {"name" => Kalculator::String.new, "email" => Kalculator::String.new, "mother" => { "name" => Kalculator::String.new}}}
   calc = Kalculator.new(line)
   t = Kalculator::TypeSources.new({"paycheck"=> Kalculator::Number,"daysOff"=>Kalculator::Number, "payroll"=> Kalculator::List.new(Kalculator::Number), "grade" => Kalculator::Percent}, {"alive"=>Kalculator::Bool, "nothing"=>Object, "name"=>Kalculator::String.new}, objectType)
   d = Kalculator::DataSources.new({"paycheck"=> 100, "daysOff"=>8, "payroll"=> [8,5,100,59], "grade" => 50}, {"alive"=>false, "nothing"=>nil, "name"=>"bobby"}, object)

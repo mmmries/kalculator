@@ -32,6 +32,7 @@ class Kalculator
           if(a[identifier].is_a?(Hash))
             return Hash
           end
+          puts a[identifier]
           return a[identifier]
         end
         raise UndefinedVariableError, "object #{a} doesn't have type attribute #{identifier}"

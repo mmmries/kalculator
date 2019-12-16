@@ -31,6 +31,7 @@ class Kalculator
     end
   end
 
+
   class String < Collection
     def initialize()
       super(String)
