@@ -15,6 +15,16 @@ class Kalculator
       send(ast.first, *ast)
     end
 
+
+
+    def access(_, identifier, object, _)
+
+      a = evaluate(object)
+      if(a.key?(identifier))
+        return a[identifier]
+      end
+      raise UndefinedVariableError, "object #{a} doesn't have attribute #{identifier}"
+    end
     def +(_, left, right, _)
       evaluate(left) + evaluate(right)
     end

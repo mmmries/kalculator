@@ -25,7 +25,7 @@ class Kalculator
         return self.class <= othertype
       end
       if(self.class<= othertype.class)
-          return self.type <= othertype.type
+          return self.type == othertype.type
       end
       return false
     end

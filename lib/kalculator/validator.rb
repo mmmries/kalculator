@@ -23,6 +23,21 @@ class Kalculator
       send(ast.first, *ast)
     end
 
+    def access(_,identifier,object,_)
+      puts "#{identifier}"
+      a = validate(object)
+      puts "#{a}"
+      if(a.is_a?(Hash))
+        if(a.key?(identifier))
+          if(a[identifier].is_a?(Hash))
+            return Hash
+          end
+          return a[identifier]
+        end
+        raise UndefinedVariableError, "object #{a} doesn't have type attribute #{identifier}"
+      end
+      raise TypeError, "trying to access something that isn't an object"
+    end
     def +(_, left, right, type)
       a = validate(left)
       if((a==validate(right)) and a <=Number)
@@ -153,6 +168,10 @@ class Kalculator
     end
 
     def if(_, condition, true_clause, false_clause, type)
+      a = validate(condition)
+      if(a.is_a?(Hash))
+        a = Hash
+      end
       if(validate(condition) <= Object and validate(true_clause)==validate(false_clause))
         return validate(true_clause)
       end
@@ -195,6 +214,7 @@ class Kalculator
     end
 
     def variable(_, name, type)
+
       raise UndefinedVariableError, "undefined variable #{name}" unless @environment.key?(name)
       return @environment[name]
     end

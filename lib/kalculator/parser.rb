@@ -26,6 +26,7 @@ class Kalculator
       clause('FALSE') { |n| [:boolean, false, Bool] }
       clause('NULL') { |n| [:null, nil, Object] }
 
+      clause('expression PERIOD IDENT')  {  |e0, _, i| [:access,i, e0, nil] }
       clause('expression GT expression') { |e0, _, e1| [:>, e0, e1, Bool] }
       clause('expression GTE expression') { |e0, _, e1| [:>=, e0, e1, Bool] }
       clause('expression LT expression') { |e0, _, e1| [:<, e0, e1, Bool] }
