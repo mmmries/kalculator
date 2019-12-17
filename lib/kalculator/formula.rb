@@ -12,14 +12,13 @@ class Kalculator
       @string = string
     end
 
-    def evaluate(data_source = {}, custom_functions = {}, type_source = Kalculator::TypeSources.new(Hash.new))
-      begin
-        Kalculator::Validator.new(type_source).validate(ast)
-        Kalculator::Evaluator.new(data_source, custom_functions).evaluate(ast)
-      rescue Error => detail
-        @string[0...detail.metadata[:offset].min] + @string[detail.metadata[:offset]].colorize(:red) + @string[(detail.metadata[:offset].max+1) ... @string.length] 
-
-      end
+    def validate( type_source = Kalculator::TypeSources.new(Hash.new))
+      Kalculator::Validator.new(type_source).validate(ast)
     end
+
+    def evaluate(data_source = {}, custom_functions = {})
+      Kalculator::Evaluator.new(data_source, custom_functions).evaluate(ast)
+    end
+    
   end
 end
