@@ -1,6 +1,7 @@
 #TODO: fix error handling to use merge, also ask mike how he wants errors to be handled
 require "kalculator/errors"
 require "kalculator/types"
+require "kalculator/pointer"
 class Kalculator
   class Validator
     def initialize(type_source)
@@ -26,7 +27,11 @@ class Kalculator
       a = validate(object)
       if((a.is_a?(MappedObject)))
         if(a.hash.key?(identifier))
-          return a.hash[identifier]
+          b =a.hash[identifier]
+          if(b.is_a?(Pointer))
+            b = @environment[b.p]
+          end
+          return b
         end
         raise UndefinedVariableError, "object #{a} doesn't have type attribute #{identifier}"
       end
@@ -211,7 +216,11 @@ class Kalculator
     def variable(_, name, type)
 
       raise UndefinedVariableError, "undefined variable #{name}" unless @environment.key?(name)
-      return @environment[name]
+      a = @environment[name]
+      if(a.is_a?(Pointer))
+        a = @environment[a.p]
+      end
+      return a
     end
 
   end

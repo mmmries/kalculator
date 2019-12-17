@@ -3,6 +3,7 @@ require "date"
 require "kalculator/types"
 require "kalculator/validator"
 require "kalculator/type_sources"
+require "kalculator/pointer"
 class Kalculator
   class Evaluator
     def initialize(data_source, custom_functions = {})
@@ -12,15 +13,18 @@ class Kalculator
     end
 
     def evaluate(ast)
-      
+
       send(ast.first, *ast)
     end
 
     def access(_, identifier, object, _)
-
       a = evaluate(object)
       if(a.key?(identifier))
-        return a[identifier]
+        b =a[identifier]
+        if(b.is_a?(Kalculator::Pointer))
+          b = @data_source[b.p]
+        end
+        return b
       end
       raise UndefinedVariableError, "object #{a} doesn't have attribute #{identifier}"
     end
@@ -124,7 +128,11 @@ class Kalculator
 
     def variable(_, name,_)
       raise UndefinedVariableError, "undefined variable #{name}" unless @data_source.key?(name)
-      @data_source[name]
+      a = @data_source[name]
+      if(a.is_a?(Pointer))
+        a = @data_source[a.p]
+      end
+      return a
     end
   end
 end
