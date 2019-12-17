@@ -1,7 +1,12 @@
+##
+#Author: Benjamin Walter Newhall, 12/17/19, github: bennewhall
+#Explanation: much like the data sources class, this stores type data in the form {"variable-name"=>String}
+##
+
 class Kalculator
   class TypeSources
 
-    def initialize(*sources)
+    def initialize(*sources)# sources is an array of Hashes
       @sources = sources
     end
 

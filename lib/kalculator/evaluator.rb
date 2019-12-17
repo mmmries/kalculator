@@ -1,4 +1,4 @@
-#TODO: make it not check each level of ast
+
 require "date"
 require "kalculator/types"
 require "kalculator/validator"
@@ -17,7 +17,7 @@ class Kalculator
       send(ast.first, *ast)
     end
 
-    def access(_, identifier, object, _)
+    def access(_, identifier, object, metadata)
       a = evaluate(object)
       if(a.key?(identifier))
         b =a[identifier]
@@ -26,74 +26,73 @@ class Kalculator
         end
         return b
       end
-      raise UndefinedVariableError, "object #{a} doesn't have attribute #{identifier}"
+      raise UndefinedVariableError.new(metadata), "object #{a} doesn't have attribute #{identifier}"
     end
-    def +(_, left, right, _)
+    def +(_, left, right, metadata)
       evaluate(left) + evaluate(right)
     end
 
-    def -(_, left, right,_)
+    def -(_, left, right, metadata)
       evaluate(left) - evaluate(right)
     end
 
-    def *(_, left, right,_)
+    def *(_, left, right, metadata)
       evaluate(left) * evaluate(right)
     end
 
-    def /(_, left, right,_)
+    def /(_, left, right, metadata)
       evaluate(left) / evaluate(right)
     end
 
-    def >(_, left, right,_)
+    def >(_, left, right, metadata)
       evaluate(left) > evaluate(right)
     end
 
-    def >=(_, left, right,_)
+    def >=(_, left, right, metadata)
       evaluate(left) >= evaluate(right)
     end
 
-    def <(_, left, right,_)
+    def <(_, left, right, metadata)
       evaluate(left) < evaluate(right)
     end
 
-    def <=(_, left, right,_)
+    def <=(_, left, right, metadata)
       evaluate(left) <= evaluate(right)
     end
 
-    def ==(_, left, right,_)
+    def ==(_, left, right, metadata)
       evaluate(left) == evaluate(right)
     end
 
-    def !=(_, left, right,_)
+    def !=(_, left, right, metadata)
       evaluate(left) != evaluate(right)
     end
 
-    def and(_, left, right,_)
+    def and(_, left, right, metadata)
       evaluate(left) && evaluate(right)
     end
 
-    def or(_, left, right,_)
+    def or(_, left, right, metadata)
       evaluate(left) || evaluate(right)
     end
 
-    def boolean(_, boolean,_)
+    def boolean(_, boolean,_, metadata)
       boolean
     end
 
-    def exists(_, variable)
-      (_variable, name) = variable
-      @data_source.key?(name)
+    def exists(_, variable, metadata)
+      @data_source.key?(variable)
     end
 
-    def fn_call(_, fn_name, expressions,_)
+    def fn_call(_, fn_name, expressions, metadata)
       key = [fn_name, expressions.count]
       fn = @functions[key]
-      raise UndefinedFunctionError, "no such function #{fn_name}/#{expressions.count}" if fn.nil?
+      raise UndefinedFunctionError.new(metadata), "no such function #{fn_name}/#{expressions.count}" if fn.nil?
       args = expressions.map{|expression| evaluate(expression) }
       return fn.call(*args)
     end
 
-    def if(_, condition, true_clause, false_clause,_)
+    def if(_, condition, true_clause, false_clause, metadata)
       if evaluate(condition)
         evaluate(true_clause)
       else
@@ -101,33 +100,33 @@ class Kalculator
       end
     end
 
-    def list(_, expressions,_)
+    def list(_, expressions, metadata)
       expressions.map{|expression| evaluate(expression) }
     end
 
-    def not(_, expression,_)
+    def not(_, expression, metadata)
       bool = evaluate(expression)
       !bool
     end
 
-    def null(_, _,_)
+    def null(_, _,_, metadata)
       nil
     end
 
-    def number(_, number,_)
+    def number(_, number,_, metadata)
       number
     end
 
-    def percent(_, percent,_)
+    def percent(_, percent,_, metadata)
       percent / 100.0
     end
 
-    def string(_, string,_)
+    def string(_, string,_, metadata)
       string
     end
 
-    def variable(_, name,_)
-      raise UndefinedVariableError, "undefined variable #{name}" unless @data_source.key?(name)
+    def variable(_, name, metadata)
+      raise UndefinedVariableError.new(metadata), "undefined variable #{name}" unless @data_source.key?(name)
       a = @data_source[name]
       if(a.is_a?(Pointer))
         a = @data_source[a.p]
