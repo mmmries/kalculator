@@ -38,7 +38,6 @@ RSpec.describe Kalculator do
 
     it "parses lists" do
       calc = Kalculator.new('[1, 2, 3, 4]')
-      print calc.ast
       expect(calc.ast).to eq([:list, [[:number, 1, Kalculator::Number, {:offset=>1..1}], [:number, 2, Kalculator::Number, {:offset=>4..4}], [:number, 3, Kalculator::Number, {:offset=>7..7}], [:number, 4, Kalculator::Number, {:offset=>10..10}]], {:offset=>0..11}])
     end
   end
