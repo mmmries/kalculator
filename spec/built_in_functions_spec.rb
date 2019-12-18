@@ -18,13 +18,22 @@ RSpec.describe Kalculator::Formula do
     end
 
     it "handles incorrect types on string" do
-      data = {"a" => 1, "b" => "wat"}
-      expect { Kalculator.evaluate("contains(a, b)", data) }.to raise_error(Kalculator::TypeError)
+      data = Kalculator::TypeSources.new({"a" => Kalculator::Number, "b" => Kalculator::String.new})
+      begin
+        Kalculator.validate("contains(a, b)", data)
+      rescue Kalculator::Error => e
+        expect(e.class).to be <= (Kalculator::TypeError)
+      end
+
     end
 
     it "handles incorrect types on substring" do
-      data = {"a" => "hey", "b" => 4}
-      expect { Kalculator.evaluate("contains(a, b)", data) }.to raise_error(Kalculator::TypeError)
+      data = Kalculator::TypeSources.new({"a" => Kalculator::String.new, "b" => Kalculator::Number})
+      begin
+        Kalculator.validate("contains(a, b)", data)
+      rescue Kalculator::Error => e
+        expect(e.class).to be <= (Kalculator::TypeError)
+      end
     end
   end
 
@@ -39,13 +48,13 @@ RSpec.describe Kalculator::Formula do
 
     it "cannot count numbers" do
       expect {
-        Kalculator.evaluate("count(6)")
+        Kalculator.validate("count(6)")
       }.to raise_error(Kalculator::TypeError)
     end
 
     it "cannot count strings" do
       expect {
-        Kalculator.evaluate("count(\"ohai\")")
+        Kalculator.validate("count(\"ohai\")")
       }.to raise_error(Kalculator::TypeError)
     end
   end
@@ -67,14 +76,14 @@ RSpec.describe Kalculator::Formula do
 
     it "handles incorrect container type" do
       expect {
-        Kalculator.evaluate("sum(\"wat\")")
-      }.to raise_error(Kalculator::TypeError, "sum only works with lists of numbers, got \"wat\"")
+        Kalculator.validate("sum(\"wat\")")
+      }.to raise_error(Kalculator::TypeError)
     end
 
     it "handles incorrect array contents" do
       expect {
-        Kalculator.evaluate("sum(numbers)", {"numbers" => [1,2,"wat"]})
-      }.to raise_error(Kalculator::TypeError, "sum only works with lists of numbers, got [1, 2, \"wat\"]")
+        Kalculator.validate("sum(numbers)", Kalculator::TypeSources.new({"numbers" => Kalculator::List.new(Object)}))
+      }.to raise_error(Kalculator::TypeError)
     end
   end
 
@@ -87,11 +96,11 @@ RSpec.describe Kalculator::Formula do
 
     it "handles incorrect types" do
       expect {
-        Kalculator.evaluate("max(\"ohai\", 5)")
-      }.to raise_error(Kalculator::TypeError, "max only works with numbers, got \"ohai\"")
+        Kalculator.validate("max(\"ohai\", 5)")
+      }.to raise_error(Kalculator::TypeError)
       expect {
-        Kalculator.evaluate("max(4, [1, 2, 3])")
-      }.to raise_error(Kalculator::TypeError, "max only works with numbers, got [1, 2, 3]")
+        Kalculator.validate("max(4, [1, 2, 3])")
+      }.to raise_error(Kalculator::TypeError)
     end
   end
 
@@ -104,11 +113,11 @@ RSpec.describe Kalculator::Formula do
 
     it "handles incorrect types" do
       expect {
-        Kalculator.evaluate("min(\"ohai\", 5)")
-      }.to raise_error(Kalculator::TypeError, "min only works with numbers, got \"ohai\"")
+        Kalculator.validate("min(\"ohai\", 5)")
+      }.to raise_error(Kalculator::TypeError)
       expect {
-        Kalculator.evaluate("min(4, [1, 2, 3])")
-      }.to raise_error(Kalculator::TypeError, "min only works with numbers, got [1, 2, 3]")
+        Kalculator.validate("min(4, [1, 2, 3])")
+      }.to raise_error(Kalculator::TypeError)
     end
   end
 

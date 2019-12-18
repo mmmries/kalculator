@@ -15,7 +15,7 @@ class Kalculator
       #last index is ALWAYS the return type, and types before that are types of children from left to right
       e = { "contains" => [Collection.new(Object), Object, Bool],
         "count" => [List.new(Object), Number],
-        "date" => [String.new, Date],
+        "date" => [String.new, Time],
         "max"=> [Number,Number,Number],
         "min" => [Number,Number,Number],
         "sum" => [List.new(Number), Number] #this only accepts number Lists
@@ -148,7 +148,18 @@ class Kalculator
     def fn_call(_, fn_name, expressions, metadata) #compare individually to make sure it is a subclass or class
       ex =expressions.map{|expression| validate(expression) }
       raise UndefinedVariableError.new(metadata), "undefined variable #{fn_name}" unless @environment.key?(fn_name)
-      if(ex.zip(@environment[fn_name]).all?{|(arg_type, expected_type)| arg_type <= expected_type}) # make sure each element is related to corresponding element in the funcion params
+      argumentMatch = ex.zip(@environment[fn_name]).all? do |(arg_type, expected_type)|
+        begin
+          arg_type <= expected_type
+        rescue
+          begin
+            expected_type >= arg_type
+          rescue
+            false
+          end
+        end
+      end
+      if(argumentMatch) # make sure each element is related to corresponding element in the funcion params
         if(fn_name == "max" or fn_name == "min") #add functions here where output type depends on input type and all types must be exact same ie. max(Percent,Percent) => Percent max(Number,Percent)=> Error max(Number,Number)=>Number
           #check all expressions are same
           cmptype = ex[0]

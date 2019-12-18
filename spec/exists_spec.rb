@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe "exists()" do
   it "can parse exists statements" do
-    expect(Kalculator.parse("exists(ohai)")).to eq([:exists, [:variable, "ohai"]])
+    expect(Kalculator.parse("exists(ohai)")).to eq([:exists, "ohai", {:offset=>0..11}])
   end
 
   it "allows a formula to check for the existience of a variable" do

@@ -9,7 +9,7 @@ class Kalculator
   class Number< Comparable; end #A Type that can be used in +,-,etc operations
   class Percent < Number; end #a type of number
   class Bool; end
-  class Date; end
+  class Time; end
 
   #a generic collection type of type Collection<othertype> where othertype is stored in the type instance variable
   class Collection

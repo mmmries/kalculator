@@ -34,9 +34,14 @@ RSpec.describe Kalculator::Transform do
         node
       end
     end
-    print new_ast
-    expect new_ast.to eq([:access, "id", [:==, [:access, "user_id", [:access, "Revenue", [:and, [:variable, "NotBlacklisted", {:offset=>0..13}], [:variable, "deal_splits", {:offset=>19..29}], {:offset=>0..29}], {:offset=>0..37}], {:offset=>0..45}], [:variable, "bob", {:offset=>50..52}], {:offset=>0..52}], {:offset=>0..55}]
-
+    expect(new_ast).to eq([:and,
+       [:variable,"NotBlacklisted", {:offset=>0..13}],
+           [:==,
+              [:access, "user_id",
+                [:access, "Revenue",
+                  [:variable, "deal_splits", {:offset=>19..29}], {:offset=>19..37}], {:offset=>19..45}],
+              [:access, "id",
+                [:variable, "bob", {:offset=>50..52}], {:offset=>50..55}], {:offset=>19..55}], {:offset=>0..55}]
     )
 
   end
@@ -47,6 +52,6 @@ RSpec.describe Kalculator::Transform do
       next node unless node.is_a?(Array) && node.first == :variable
       [:variable, "wat"]
     end
-    expect(new_ast).to eq([:exists, [:variable, "wat"]])
+    expect(new_ast).to eq([:exists, "ohai", {:offset=>0..11}])
   end
 end
