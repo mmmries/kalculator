@@ -109,7 +109,7 @@ class Kalculator
 
     def ==(_, left, right, metadata)
       leftType = validate(left)
-      if((leftType==validate(right)) and leftType<= Comparable)
+      if(leftType==validate(right))
         return Bool
       end
     raise TypeError.new(metadata), "not comparing two of the same comparable types"
@@ -117,7 +117,7 @@ class Kalculator
 
     def !=(_, left, right, metadata)
       leftType = validate(left)
-      if((leftType==validate(right)) and leftType<= Comparable)
+      if(leftType==validate(right))
         return Bool
       end
     raise TypeError.new(metadata), "not comparing two of the same comparable types"

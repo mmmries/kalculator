@@ -14,9 +14,10 @@ class Kalculator
       end
     end
     left :AND, :OR
-    left :GT, :GTE, :LT, :LTE, :EQ
+    left :GT, :GTE, :LT, :LTE, :EQ, :NEQ
     left :PLUS, :SUB
     left :MUL, :DIV
+    left :PERIOD
     #Left     600 '.'.
 
     production(:expression) do
