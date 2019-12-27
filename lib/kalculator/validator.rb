@@ -4,9 +4,6 @@
 #Usage: v = Validator.new(typesource)       (typesource is a TypeSources object)
 #       v.validate(ast)                     (ast is the ast returned by parsing a line)(this will either return a type or throw an Error as described in the errors.rb file)
 ##
-require "kalculator/errors"
-require "kalculator/types"
-require "kalculator/pointer"
 class Kalculator
   class Validator
     def initialize(type_source)
@@ -170,7 +167,7 @@ class Kalculator
         end
         #add other specialized functions here
         if(fn_name == "contains") #generic function in the format List<E>, E => ReturnType
-          if(ex[0].genericType?(ex[1]))
+          if(ex[0].generic_type?(ex[1]))
             return @environment[fn_name][@environment[fn_name].size - 1]
           end
           raise TypeError.new(metadata), "generic function type error"

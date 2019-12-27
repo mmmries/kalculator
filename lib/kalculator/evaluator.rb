@@ -1,9 +1,4 @@
 
-require "date"
-require "kalculator/types"
-require "kalculator/validator"
-require "kalculator/type_sources"
-require "kalculator/pointer"
 class Kalculator
   class Evaluator
     def initialize(data_source, custom_functions = {})

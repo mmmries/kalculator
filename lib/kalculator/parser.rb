@@ -1,4 +1,4 @@
-require "kalculator/types"
+
 class Kalculator
   class Parser < RLTK::Parser
     #code taken from spiff-rb

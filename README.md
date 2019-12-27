@@ -153,19 +153,19 @@ Kalculator.validate("person.mother.child.name", objecttype) #=> Kalculator::Stri
 
 Kalculator provides a group of built in functions for more complex calculations
 
-**Function | Arg Types | Description**
+| Function | Arg Types | Description |
 
-contains  | `[Collection.new(Object), Object]`  | returns true if an object is present in a certain collection
+| contains  | `[Collection.new(Object), Object]`  | returns true if an object is present in a certain collection |
 
-count   | `[List.new(Object)]`  | returns the number of elements in a list
+| count   | `[List.new(Object)]`  | returns the number of elements in a list |
 
-date  | `[String.new]`  | returns a Date object of the parsed string
+| date  | `[String.new]`  | returns a Date object of the parsed string |
 
-max | `[Number,Number]` | returns the max of two numbers
+| max | `[Number,Number]` | returns the max of two numbers |
 
-min | `[Number,Number]` | returns the min of two numbers
+| min | `[Number,Number]` | returns the min of two numbers |
 
-sum | `[List.new(Number)]`  | returns the sum of the numbers in a list
+| sum | `[List.new(Number)]`  | returns the sum of the numbers in a list |
 
 ## Performance
 

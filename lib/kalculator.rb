@@ -1,4 +1,5 @@
 require "rltk"
+require "date"
 require "kalculator/built_in_functions"
 require "kalculator/data_sources"
 require "kalculator/errors"
@@ -6,10 +7,13 @@ require "kalculator/evaluator"
 require "kalculator/formula"
 require "kalculator/lexer"
 require "kalculator/parser"
+require "kalculator/pointer"
 require "kalculator/transform"
-require "kalculator/version"
-require "kalculator/validator"
 require "kalculator/type_sources"
+require "kalculator/types"
+require "kalculator/validator"
+require "kalculator/version"
+
 
 
 

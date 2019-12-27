@@ -17,44 +17,44 @@ class Kalculator
     def initialize(type)
       @type = type
     end
-    def genericType?(possibleType) #possibleType has to either be a collection or a type
-      if(possibleType.class <= Kalculator::Collection)
-        return possibleType.type <= @type
+    def generic_type?(possible_type) #possibleType has to either be a collection or a type
+      if(possible_type.class <= Kalculator::Collection)
+        return possible_type.type <= @type
       end
-      if(possibleType.class == Class)
-        return possibleType <= @type
-      end
-      return false
-    end
-
-    def ==(othertype) #othertype has to be a collection or a type
-      if(othertype.class <= self.class)
-          return othertype.type == self.type
+      if(possible_type.class == Class)
+        return possible_type <= @type
       end
       return false
     end
 
-    def <=(otherobject) # otherobject has to be a collection, a type, or some other object
-      if(otherobject.class <= Kalculator::Collection)
-        return ((self.class<= otherobject.class) and (self.type <= otherobject.type))
-      elsif(otherobject.class == Class)
-        if(otherobject == Object)
+    def ==(other_type) #othertype has to be a collection or a type
+      if(other_type.class <= self.class)
+          return other_type.type == self.type
+      end
+      return false
+    end
+
+    def <=(other_object) # otherobject has to be a collection, a type, or some other object
+      if(other_object.class <= Kalculator::Collection)
+        return ((self.class<= other_object.class) and (self.type <= other_object.type))
+      elsif(other_object.class == Class)
+        if(other_object == Object)
           return true
         end
         return false
-      elsif(otherobject.class != Class)
+      elsif(other_object.class != Class)
         return false
       end
 
       return false
     end
 
-    def >=(otherobject) # otherobject has to be a collection, a type, or some other object
-      if(otherobject.class <=Kalculator::Collection)
-        return otherobject<= self
-      elsif(otherobject.class == Class)
+    def >=(other_object) # otherobject has to be a collection, a type, or some other object
+      if(other_object.class <=Kalculator::Collection)
+        return other_object<= self
+      elsif(other_object.class == Class)
         return false
-      elsif(otherobject.class != Class)
+      elsif(other_object.class != Class)
         return false
       end
 
