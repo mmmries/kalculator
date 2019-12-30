@@ -8,5 +8,10 @@ RSpec.describe Kalculator do
       types = Kalculator::TypeSources.new({"a"=>Kalculator::Pointer.new("name"), "name"=>Kalculator::String.new})
       expect(Kalculator.validate("contains(a,\"b\")",types)).to eq(Kalculator::Bool)
     end
+
+    it "points to a piece of data not in the data sources" do
+      types = Kalculator::TypeSources.new({"a"=>Kalculator::AnonymousPointer.new(Kalculator::String.new), "name"=>Kalculator::String.new})
+      expect(Kalculator.validate("contains(a,\"b\")",types)).to eq(Kalculator::Bool)
+    end
   end
 end

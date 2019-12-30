@@ -19,6 +19,9 @@ class Kalculator
         if(b.is_a?(Kalculator::Pointer))
           b = @data_source[b.p]
         end
+        if(b.is_a?(Kalculator::AnonymousPointer))
+          b = b.p
+        end
         return b
       end
       raise UndefinedVariableError.new(metadata), "object #{a} doesn't have attribute #{identifier}"
@@ -125,6 +128,9 @@ class Kalculator
       a = @data_source[name]
       if(a.is_a?(Pointer))
         a = @data_source[a.p]
+      end
+      if(a.is_a?(Kalculator::AnonymousPointer))
+        a = a.p
       end
       return a
     end

@@ -33,6 +33,9 @@ class Kalculator
           if(attribute.is_a?(Pointer))
             attribute = @environment[attribute.p] #if the attribute is a pointer find an add
           end
+          if(attribute.is_a?(Kalculator::AnonymousPointer))
+            attribute = attribute.p
+          end
           return attribute
         end
         raise UndefinedVariableError.new(metadata), "object #{objectType} doesn't have type attribute #{identifier}"
@@ -223,11 +226,14 @@ class Kalculator
     def variable(_, name, metadata)
 
       raise UndefinedVariableError.new(metadata), "undefined variable #{name}" unless @environment.key?(name)
-      variableType = @environment[name]
-      if(variableType.is_a?(Pointer))
-        variableType = @environment[variableType.p] #if the variable you are accessing is a pointer, then return the type of the variable it is pointing to
+      variable_type = @environment[name]
+      if(variable_type.is_a?(Pointer))
+        variable_type = @environment[variable_type.p] #if the variable you are accessing is a pointer, then return the type of the variable it is pointing to
       end
-      return variableType
+      if(variable_type.is_a?(Kalculator::AnonymousPointer))
+        variable_type = variable_type.p
+      end
+      return variable_type
     end
 
   end
