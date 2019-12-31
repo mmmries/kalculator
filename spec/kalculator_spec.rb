@@ -8,6 +8,6 @@ RSpec.describe Kalculator do
   end
 
   it "has a shortcut for parsing" do
-    expect(Kalculator.parse("1 + 1")).to eq([:+, [:number, 1], [:number, 1]])
+    expect(Kalculator.parse("1 + 1")).to eq([:+, [:number, 1, Kalculator::Number, {:offset=>0..0}], [:number, 1, Kalculator::Number, {:offset=>4..4}], {:offset=>0..4}])
   end
 end

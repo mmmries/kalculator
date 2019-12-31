@@ -5,8 +5,8 @@ RSpec.describe "hardcoding dates in a formula" do
 
   it "raises errors for invalid data" do
     expect {
-      Kalculator.evaluate("date(1234)")
-    }.to raise_error(Kalculator::TypeError, "date only works with Strings, got 1234")
+      Kalculator.validate("date(1234)")
+    }.to raise_error(Kalculator::TypeError)
   end
 
   it "raises errors for invalid dates" do

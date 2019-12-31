@@ -1,82 +1,96 @@
-require "date"
 
 class Kalculator
   class Evaluator
     def initialize(data_source, custom_functions = {})
+
       @data_source = data_source
       @functions = Kalculator::BUILT_IN_FUNCTIONS.merge(custom_functions)
     end
 
     def evaluate(ast)
+
       send(ast.first, *ast)
     end
 
-    def +(_, left, right)
+    def access(_, identifier, object, metadata)
+      a = evaluate(object)
+      if(a.key?(identifier))
+        b =a[identifier]
+        if(b.is_a?(Kalculator::Pointer))
+          b = @data_source[b.p]
+        end
+        if(b.is_a?(Kalculator::AnonymousPointer))
+          b = b.p
+        end
+        return b
+      end
+      raise UndefinedVariableError.new(metadata), "object #{a} doesn't have attribute #{identifier}"
+    end
+    def +(_, left, right, metadata)
       evaluate(left) + evaluate(right)
     end
 
-    def -(_, left, right)
+    def -(_, left, right, metadata)
       evaluate(left) - evaluate(right)
     end
 
-    def *(_, left, right)
+    def *(_, left, right, metadata)
       evaluate(left) * evaluate(right)
     end
 
-    def /(_, left, right)
+    def /(_, left, right, metadata)
       evaluate(left) / evaluate(right)
     end
 
-    def >(_, left, right)
+    def >(_, left, right, metadata)
       evaluate(left) > evaluate(right)
     end
 
-    def >=(_, left, right)
+    def >=(_, left, right, metadata)
       evaluate(left) >= evaluate(right)
     end
 
-    def <(_, left, right)
+    def <(_, left, right, metadata)
       evaluate(left) < evaluate(right)
     end
 
-    def <=(_, left, right)
+    def <=(_, left, right, metadata)
       evaluate(left) <= evaluate(right)
     end
 
-    def ==(_, left, right)
+    def ==(_, left, right, metadata)
       evaluate(left) == evaluate(right)
     end
 
-    def !=(_, left, right)
+    def !=(_, left, right, metadata)
       evaluate(left) != evaluate(right)
     end
 
-    def and(_, left, right)
+    def and(_, left, right, metadata)
       evaluate(left) && evaluate(right)
     end
 
-    def or(_, left, right)
+    def or(_, left, right, metadata)
       evaluate(left) || evaluate(right)
     end
 
-    def boolean(_, boolean)
+    def boolean(_, boolean,_, metadata)
       boolean
     end
 
-    def exists(_, variable)
-      (_variable, name) = variable
-      @data_source.key?(name)
+    def exists(_, variable, metadata)
+      @data_source.key?(variable)
     end
 
-    def fn_call(_, fn_name, expressions)
+    def fn_call(_, fn_name, expressions, metadata)
       key = [fn_name, expressions.count]
       fn = @functions[key]
-      raise UndefinedFunctionError, "no such function #{fn_name}/#{expressions.count}" if fn.nil?
+      raise UndefinedFunctionError.new(metadata), "no such function #{fn_name}/#{expressions.count}" if fn.nil?
       args = expressions.map{|expression| evaluate(expression) }
       return fn.call(*args)
     end
 
-    def if(_, condition, true_clause, false_clause)
+    def if(_, condition, true_clause, false_clause, metadata)
       if evaluate(condition)
         evaluate(true_clause)
       else
@@ -84,35 +98,41 @@ class Kalculator
       end
     end
 
-    def list(_, expressions)
+    def list(_, expressions, metadata)
       expressions.map{|expression| evaluate(expression) }
     end
 
-    def not(_, expression)
+    def not(_, expression, metadata)
       bool = evaluate(expression)
-      raise TypeError, "! only works with booleans, got #{bool.inspect}" unless bool === true || bool === false
       !bool
     end
 
-    def null(_, _)
+    def null(_, _,_, metadata)
       nil
     end
 
-    def number(_, number)
+    def number(_, number,_, metadata)
       number
     end
 
-    def percent(_, percent)
+    def percent(_, percent,_, metadata)
       percent / 100.0
     end
 
-    def string(_, string)
+    def string(_, string,_, metadata)
       string
     end
 
-    def variable(_, name)
-      raise UndefinedVariableError, "undefined variable #{name}" unless @data_source.key?(name)
-      @data_source[name]
+    def variable(_, name, metadata)
+      raise UndefinedVariableError.new(metadata), "undefined variable #{name}" unless @data_source.key?(name)
+      a = @data_source[name]
+      if(a.is_a?(Pointer))
+        a = @data_source[a.p]
+      end
+      if(a.is_a?(Kalculator::AnonymousPointer))
+        a = a.p
+      end
+      return a
     end
   end
 end

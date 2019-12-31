@@ -25,20 +25,18 @@ RSpec.describe Kalculator do
     end
 
     it "evaluates multi-part variable names" do
-      data = {"A.foo.bar" => 14}
-      expect(Kalculator.evaluate("A.foo.bar + 6", data)).to eq(20)
+      data = {"A" =>{"foo.bar" => 14}}
+      expect(Kalculator.evaluate("A[\"foo.bar\"] + 6", data)).to eq(20)
     end
 
     it "evaluates nested multi-part variable names" do
       data = {"A" => {"foo" => {"bar" => 14}}}
-      nested = Kalculator::NestedLookup.new(data)
-      expect(Kalculator.evaluate("A.foo.bar + 6", nested)).to eq(20)
+      expect(Kalculator.evaluate("A.foo.bar + 6", data)).to eq(20)
     end
 
     it "missing names in a nested structure raise UndefinedVariableErrors" do
       data = {"A" => {"foo" => {"bar" => 14}}}
-      nested = Kalculator::NestedLookup.new(data)
-      expect{ Kalculator.evaluate("A.foo.baz + 6", nested) }.to raise_error(Kalculator::UndefinedVariableError, "undefined variable A.foo.baz")
+      expect{ Kalculator.evaluate("A.foo.baz + 6", data) }.to raise_error(Kalculator::UndefinedVariableError)
     end
 
     it "evaluates if" do
